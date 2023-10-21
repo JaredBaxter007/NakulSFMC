@@ -1,0 +1,56 @@
+SELECT j.EmailName, j.EmailSubject, s.JobId, ed.EventDate, s.Sends, o.Opens, c.Clicks , b.Bounce, un.Unsubscribe
+,b.HardBounce, b.SoftBounce, b.BlockBounce
+FROM (
+    SELECT JobId, Count(*) as Sends
+    FROM _Sent
+    GROUP BY JobId
+) s
+inner join(
+    SELECT JobId, EmailName, EmailSubject
+    FROM _Job
+    WHERE Category != 'Test Send Emails'
+    and Category != 'Test Emails'
+    AND EmailName not like '%PCAMESA_Campaign_Report_Daily%'
+    AND EmailName not like '%User To be disabled-60Days%'
+    AND EmailName not like '%User To be disabled in 2 days%'
+    AND EmailName not like '%User To be disabled-60Days%'
+    AND EmailName not like '%RMM_Default_CustomResponse%'
+    AND EmailName not like '%Test%'
+    GROUP BY JobId, EmailName, EmailSubject
+) j
+on j.JobID=s.JobID
+LEFT JOIN (
+    SELECT JobId, Count(*) as Opens
+    FROM _Open 
+    where IsUnique = 1
+    GROUP BY JobId
+) o
+ON o.JobId = s.JobId
+LEFT JOIN (
+    SELECT JobId, Count(*) as Clicks
+    FROM _Click
+    where IsUnique = 1
+    GROUP BY JobId
+) c
+ON c.JobId = s.JobId
+LEFT JOIN (
+    SELECT JobId, Count(*) as Bounce,
+    SUM(CASE WHEN BounceCategory = 'Hard bounce' then 1 ELSE 0 END) AS HardBounce,
+    SUM(CASE WHEN BounceCategory = 'Soft bounce' then 1 ELSE 0 END) AS SoftBounce,
+    SUM(CASE WHEN BounceCategory = 'Block bounce' then 1 ELSE 0 END) AS BlockBounce
+    FROM _Bounce
+    GROUP BY JobId
+) b
+ON b.JobId = s.JobId
+LEFT JOIN (
+    SELECT JobId, Count(*) as Unsubscribe
+    FROM _Unsubscribe
+    GROUP BY JobId
+) un
+ON un.JobId = s.JobId
+LEFT JOIN (
+    SELECT JobId, MIN(EventDate) as EventDate
+    FROM _Sent
+    GROUP BY JobId
+) ed
+ON ed.JobId = s.JobId

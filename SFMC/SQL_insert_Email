@@ -1,0 +1,79 @@
+SELECT
+    CONVERT(NVARCHAR(100),NEWID()) AS ConsumerUID,
+	sub.FirstName,
+	sub.LastName,
+	sub.EmailAddress,
+	sub.MobileNumber,
+	sub.MAID,
+	sub.LanguagePreference,
+	sub.Country,
+	sub.MegaPrize,
+	sub.CurrentPoints,
+	sub.City,
+	sub.LastActivity_UpdateDate,
+	sub.SourceID,
+	sub.LastUpdateDate,
+	sub.[EmailOpt-in],
+	sub.[SMSOpt-in],
+	sub.[WhatsAppOpt-in],
+	sub.AccountRegistrationDate,
+	sub.LastSeenDate,
+	sub.SFMC_UpdateDate,
+	sub.Age,
+	sub.Gender
+	
+	FROM
+		(
+			SELECT
+		   	    source.FirstName,
+				source.LastName,
+				source.EmailAddress,
+				source.MobileNumber,
+				source.MAID,
+				source.LanguagePreference,
+				source.Country,
+				source.MegaPrize,
+				source.CurrentPoints,
+				source.City,
+				source.LastActivity_UpdateDate,
+				source.SourceID,
+				source.LastUpdateDate,
+				source.Age,
+				source.Gender,
+				ISNULL(source.[EmailOpt-in],0) AS [EmailOpt-in],
+				ISNULL(source.[SMSOpt-in],0) AS [SMSOpt-in],
+				ISNULL(source.[WhatsAppOpt-in],0) AS [WhatsAppOpt-in],
+				source.AccountRegistrationDate,
+				source.AccountRegistrationDate AS LastSeenDate,
+				GETDATE() AS SFMC_UpdateDate,
+				ROW_NUMBER() OVER
+					(
+						PARTITION BY source.EmailAddress
+						ORDER BY
+							source.LastUpdateDate DESC,
+							source.LastActivity_UpdateDate DESC
+					) AS ranking
+					
+				FROM [PAK_Profile_Staging] source
+				
+				INNER JOIN [PAK_Active_Campaigns] pac ON
+					source.SourceID = pac.SourceID AND
+					pac.active = 1
+				
+				LEFT JOIN [PAK_Profile_Staging_exclude] e ON
+					source._CustomObjectKey = e.CustomObjectKey
+					
+				WHERE
+					e.CustomObjectKey IS NULL AND
+					ISNULL(source.EmailAddress,'') <> '' AND
+					NOT EXISTS
+						(
+							SELECT 1
+							FROM [PAK_Profile] p
+							WHERE
+								p.EmailAddress = source.EmailAddress OR
+								p.MobileNumber = source.MobileNumber OR
+								p.MAID = source.MAID
+						) 
+		) sub
+		WHERE sub.ranking = 1

@@ -1,0 +1,93 @@
+<div style="text-align: center;">
+ <br>
+ <br>
+ <span style="font-size:25px;"><b>Thank you!</b></span><br>
+ <br>
+ <span style="font-size:15px;">Your preferences have been updated.</span><br>
+   &nbsp;</div>
+%%[ Var @checked,@row,@keys,@ukeys,@SubKey,@EmailAddress,@unsub
+set @keys = RequestParameter("keys")
+set @ukeys = RequestParameter("ukeys")
+set @SubKey = RequestParameter("SubKey")
+set @EmailAddress = RequestParameter("EmailAddr")
+set @unsub = RequestParameter("unsub1")
+
+]%%
+
+%%=v(@keys)=%%
+%%=v(@ukeys)=%%
+<div>
+  
+<center> <span>
+    To resubscribe or view and edit your subscriptions to other publications from PepsiCo ANZ, visit the </span><a href="%%=RedirectTo(CloudPagesURL(453,'SubKey',@SubKey,'EmailAddress',@EmailAddress))=%%">Subscription Center</a>
+</center>
+
+%%[
+
+if(NOT EMPTY(@keys)) THEN
+]%%
+ <script runat="server">
+  Platform.Load("Core","1");
+  var sub = Variable.GetValue("@SubKey");
+var subscriber = {"Status": "Active"};
+  var subObj = Subscriber.Init(sub);
+  var status = subObj.Update(subscriber);
+</script>
+%%[
+Set @checked = BuildRowsetFromString(@keys,',')
+for @i = 1 to Rowcount(@checked) do
+Set @row = Row(@checked, @i)
+Set @checkedkeys = Field(@row,1)
+
+]%%
+<script runat="server">
+  Platform.Load("Core","1");
+var checkedkeys = Variable.GetValue("@checkedkeys");
+  var Subkey = Variable.GetValue("@SubKey");
+  var Emailaddr = Variable.GetValue("@EmailAddr");
+  Write(checkedkeys);
+var myList = List.Init(checkedkeys);
+  var status =myList.Subscribers.Upsert({EmailAddress:Emailaddr, SubscriberKey:Subkey},{Status:"Active"});
+  
+</script>
+
+%%[
+next @i 
+ENDIF
+var @unchecked,@row1,@uncheckedkeys
+if(NOT EMPTY(@ukeys)) THEN
+Set @unchecked = BuildRowsetFromString(@ukeys,',')
+for @j = 1 to Rowcount(@unchecked) do
+Set @row1 = Row(@unchecked, @j)
+Set @uncheckedkeys = Field(@row1,1)
+
+]%% 
+
+<script runat="server">
+  Platform.Load("Core","1");
+var uncheckedkeys = Variable.GetValue("@uncheckedkeys");
+   var Subkey = Variable.GetValue("@SubKey");
+  var Emailaddr = Variable.GetValue("@EmailAddr");
+  Write(checkedkeys);
+var myList = List.Init(uncheckedkeys);
+var status = myList.Subscribers.Unsubscribe({EmailAddress:Emailaddr, SubscriberKey:Subkey});
+
+</script>
+
+%%[
+next @j
+ENDIF
+]%%
+
+%%[IF(@unsub=="True") THEN]%%
+<script runat="server">
+  Platform.Load("Core","1");
+  var Subkey = Variable.GetValue("@SubKey");
+var subObj = Subscriber.Init(Subkey);
+var status = subObj.Unsubscribe();
+</script>
+
+%%[ENDIF]%%
+
+
+ </div>

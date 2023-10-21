@@ -1,0 +1,25 @@
+SELECT 
+    j.EmailName,
+    
+    COUNT(o.IsUnique) as TotalOpens,'KSA' as Rank
+   
+FROM   [_Open] AS o
+
+JOIN [_Job] as j
+on o.JobID = j.JobID
+
+where j.category != 'Test Send Emails'
+and Category != 'Test Emails'
+AND j.EmailName not like '%PCAMESA_Campaign_Report_Daily%'
+AND EmailName not like '%User To be disabled-60Days%'
+AND EmailName not like '%User To be disabled in 2 days%'
+AND EmailName not like '%User To be disabled-60Days%'
+AND EmailName not like '%RMM_Default_CustomResponse%'
+AND EmailName not like '%Test%'
+
+ /* BU specific EmailNames 
+AND j.EmailName like '%KSA'
+AND j.EmailName like '%SA'
+AND j.EmailName like '%PAK'  */
+
+GROUP BY  j.EmailName

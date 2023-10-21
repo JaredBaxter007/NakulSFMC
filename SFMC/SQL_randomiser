@@ -1,0 +1,49 @@
+Previous day
+
+select						
+sub.mobilenumber,						
+sub.CEPUpdateDate,						
+sub.RaffleID						
+from						
+(Select 						
+mobilenumber,						
+CEPUpdateDate,						
+RaffleID,						
+ROW_NUMBER() OVER						
+				(		
+					PARTITION BY mobilenumber	
+					ORDER BY	
+						CEPUpdateDate DESC
+				) as ranking		
+from [KSALoyaltyRaffle_Consumption] 						
+where RaffleID ='24201'						
+AND  CONVERT (DATE ,SFMC_InsertedDate) = CONVERT (DATE, DateAdd(day,-1,GETDATE()))						
+AND mobilenumber NOT IN (Select mobilenumber from [KSA_Randomiser_Raffle_Winner_Journey_entry_audience_Historical] )						
+) sub						
+where sub.ranking	 = 1					
+___________________________________________________________________________________________________________________________________________
+Date to date
+select
+sub.mobilenumber,
+sub.CEPUpdateDate,
+sub.RaffleID,
+Sub.SFMC_InsertedDate
+from
+(Select 
+mobilenumber,
+CEPUpdateDate,
+RaffleID,
+SFMC_InsertedDate,
+ROW_NUMBER() OVER
+				(
+					PARTITION BY mobilenumber
+					ORDER BY
+						CEPUpdateDate DESC
+				) as ranking	
+from [KSALoyaltyRaffle_Consumption] 
+where RaffleID ='8289'
+AND     ( CONVERT (DATE ,SFMC_InsertedDate) >  CONVERT (DATE ,'26 July 2023')
+AND   CONVERT (DATE ,SFMC_InsertedDate) <   CONVERT (DATE ,'3 August 2023'))
+AND mobilenumber NOT IN (Select mobilenumber from [KSA_Randomiser_Raffle_Winner_Journey_entry_audience_Historical] )
+) sub
+where sub.ranking	 = 1

@@ -1,0 +1,63 @@
+select sub.EmailAddress, sub.MobileNumber, sub.LanguagePreference, sub.Country, sub.AccountRegistrationDate, sub.SourceID
+     , sub.FirstName, sub.LastName, sub.MegaPrize, sub.CurrentPoints, sub.LastActivity_UpdateDate, sub.LastUpdateDate
+     , sub.City, sub.MAID, sub.[WhatsAppOpt-in]
+     , sub.[SMSOpt-in], sub.[EmailOpt-in]
+     , getDate() as SFMC_UpdateDate
+     , sub.Age, sub.Gender
+from (
+    select 
+	  Temp.EmailAddress as  EmailAddress
+        , case 
+           when (ISdate (Temp.AccountRegistrationDate) != '1' )
+           then getDate()
+           else Temp.AccountRegistrationDate end as AccountRegistrationDate  
+        
+        , case
+            when (( len(Temp.MobileNumber) < 9 OR len(Temp.MobileNumber) > 15))
+            then ''
+            when ( (Temp.MobileNumber LIKE '%[^0-9]%') AND (Temp.MobileNumber NOT LIKE '+%'))
+            then ''
+            else Temp.MobileNumber end as MobileNumber  
+        ,Temp.LanguagePreference as LanguagePreference
+        ,Temp.Country as Country
+        ,Temp.SourceID as SourceID
+        ,Temp.FirstName as FirstName
+        ,Temp.LastName as LastName
+        ,Temp.MegaPrize as MegaPrize
+        ,Temp.CurrentPoints as CurrentPoints
+        , case 
+           when (ISdate (Temp.LastActivity_UpdateDate) != '1' )
+           then getDate()
+           else Temp.LastActivity_UpdateDate end as LastActivity_UpdateDate 
+        
+        ,case 
+           when (ISdate (Temp.LastUpdateDate) != '1' )
+           then getDate()
+           else Temp.LastUpdateDate end as LastUpdateDate 
+        
+        ,Temp.City as City
+        ,Temp.MAID  as MAID
+        ,Temp.[SMSOpt-in] as [SMSOpt-in]
+        ,Temp.[WhatsAppOpt-in] as [WhatsAppOpt-in]
+        ,  
+        case
+           when (ISdate (Temp.Age) != '1' )
+           then null
+           else Temp.Age end as Age
+        
+        ,case
+            when Temp.Gender in ('Masculine','M','ذكر' ) 
+            then 'Male'
+            when Temp.Gender in ('Feminine','F','انثى' ) 
+            then 'Female'
+            when Temp.Gender in ('others') 
+            then 'other'
+         else Temp.Gender end as Gender
+
+        ,Temp.[EmailOpt-in] as [EmailOpt-in]
+        , GetDate() as SFMC_UpdateDate
+        
+    from [KSA_Profile_temp] Temp
+    where Temp.EmailAddress LIKE '%_@__%.__%'
+) sub
+

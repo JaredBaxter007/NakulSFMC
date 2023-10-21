@@ -1,0 +1,358 @@
+
+Unsub 
+
+
+%%[
+ var @contact_id, @email_address
+ set @contact_id = QueryParameter("c")
+if Not Empty(@contact_id) then
+   set @contact_rows = RetrieveSalesforceObjects('Contact','Email','Id', '=', @contact_id)
+   
+if rowcount(@contact_rows) > 0 then
+     set @contact_row        = row(@contact_rows, 1)
+     set @email_address      = field(@contact_row, "Email") 
+    /* look for all contact ids which are associated to email address in contacts DE */
+     set @rowsForContactIds = LookupRows("ent.Contacts","Email_Address", @email_address )
+     set @rowCountForContactIds = rowcount(@rowsForContactIds) 
+  if @rowCountForContactIds > 0 then
+   for @i = 1 to @rowCountForContactIds do
+       set @rowForContactIds = row(@rowsForContactIds, @i) /* get row based on counter */
+      set @contact_id_i  = field(@rowForContactIds,"contact_id")
+     /* update status to unsubscribe in All sunscriber list */
+      set @Subscriber = CreateObject("Subscriber")
+     SetObjectProperty(@Subscriber, "SubscriberKey", @contact_id_i)
+     SetObjectProperty(@Subscriber, "EmailAddress", @email_address)
+     SetObjectProperty(@Subscriber, "Status","Unsubscribed")
+     SET @Status = InvokeUpdate(@Subscriber, @createErrDesc, @createErrNo, @createOpts)
+     
+     /* update subscription status to unsubscribed in Subscription DE */
+     UpdateData("Subscription", 1, "contact_id", @contact_id_i,
+      "last_modified_date",Now(),
+      "subscription_status", "unsubscribed",
+      "opt_out_date", Now(),
+      "opt_out_method", "Preference Center" 
+      )
+   
+    /* update subscription status to unsubscribed in Subscription Log DE */
+    InsertData("Subscription_Log", "contact_id", @contact_id_i,
+      "last_modified_date",Now(),
+      "subscription_status", "unsubscribed",
+      "opt_out_date", Now(),
+      "opt_out_method", "Preference Center",
+      "created_date",Now()
+      )
+            next @i 
+         endif
+   endif
+endif   
+
+/* set @frequency1       = RequestParameter("frequency1")
+ 
+ set @question_id = Lookup('ENT.Preference Questions','question_id','question_desc',"How often would you like to hear from us?",'brand_name',"Yankee US")
+ 
+ /* Retrieve Answer IDs for Landing Page Question(s) */
+  set @pref_answer_rows   = LookupRows("ent.Preference Answers","brand_name","Yankee US")
+  set @row_count          = rowcount(@pref_answer_rows)
+  set @testHTML           = concat(@testHTML, "<br>Pref Answers Row Count: ",@row_count)
+
+  if @row_count > 0 then
+    for @i = 1 to @row_count do
+      set @pref_answer_row           = row(@pref_answer_rows, @i)
+      set @answer_desc               = field(@pref_answer_row, "answer_desc")
+      
+     if @answer_desc == "Nothing right now - unsubscribe. I'll sign up again later if I want more." then
+       set @frequency14_answer_id          = field(@pref_answer_row, "answer_id")
+     endif  
+    next @i
+  endif
+ 
+ set @ans_old13 = Lookup('Contact_Preferences','answer_id','contact_id',@contact_id,'question_id',@question_id,'sno',13)/*frequency13*/
+   
+ 
+/*frequency4*/
+  if not empty(@frequency1) and @frequency1 == "4" then 
+  
+    if empty(@ans_old13) then
+     UpsertData("Contact_Preferences",3,"contact_id", @contact_id,
+                "question_id",@question_id,
+                "sno","13",
+                "answer_id", @frequency14_answer_id )
+
+     UpsertData("Preferences_Log", 1,"guid", guid(), "contact_id", @contact_id,
+                "question_id",@question_id,             
+                "answer_id", @frequency14_answer_id ,
+                "action", "added",
+                "log_date", now()
+                )
+   endif
+  else 
+   if not empty(@ans_old13) then
+     DeleteData("Contact_Preferences","contact_id", @contact_id,
+                "question_id",@question_id,
+                "sno","13",
+                "answer_id", @frequency14_answer_id)
+ 
+   UpsertData("Preferences_Log", 1,"guid", guid(), "contact_id", @contact_id,
+                "question_id",@question_id,
+                "answer_id", @frequency14_answer_id ,
+                "action", "deleted",
+                "log_date", now()
+                )
+   endif
+ endif */
+]%%
+
+%%[
+var @contact_id, @all_sub_email, @all_sub_subscriberkey_i
+set @contact_id = QueryParameter("c")
+if Not Empty(@contact_id) then
+   set @all_sub_email = Lookup('ENT._ListSubscribers','EmailAddress', 'ListID ', 10, 'SubscriberKey', @contact_id)
+   /*Start unsubscribe all occurances of this email_address in Allsubscribers*/
+   set @all_sub_rows = LookupRows('ENT._ListSubscribers','ListID ', 10, 'EmailAddress', @all_sub_email)
+   set @all_sub_rows_count = rowcount(@all_sub_rows)
+   if @all_sub_rows_count > 0 then
+      for @i = 1 to @all_sub_rows_count do
+     set @all_sub_row_i = row(@all_sub_rows, @i)
+        set @all_sub_subscriberkey_i = field(@all_sub_row_i, "SubscriberKey")
+  /*Start Unsubscribe In Allsubscribers*/
+  set @Subscriber = CreateObject("Subscriber")
+        SetObjectProperty(@Subscriber, "SubscriberKey", @all_sub_subscriberkey_i)
+        SetObjectProperty(@Subscriber, "EmailAddress", @all_sub_email)
+        SetObjectProperty(@Subscriber, "Status","Unsubscribed")
+        SET @Status = InvokeUpdate(@Subscriber, @createErrDesc, @createErrNo, @createOpts)
+  /*End Unsubscribe In Allsubscribers*/
+  /*Start update subscription status to unsubscribed in Subscription DE */
+  UpdateData("Subscription", 1, "contact_id", @all_sub_subscriberkey_i,
+  "last_modified_date",Now(),
+  "subscription_status", "unsubscribed",
+  "opt_out_date", Now(),
+  "opt_out_method", "Preference Center" 
+  )
+  /*End update subscription status to unsubscribed in Subscription DE */
+  /*Start update subscription status to unsubscribed in Subscription Log DE */
+  InsertData("Subscription_Log", "contact_id", @all_sub_subscriberkey_i,
+  "last_modified_date",Now(),
+  "subscription_status", "unsubscribed",
+  "opt_out_date", Now(),
+  "opt_out_method", "Preference Center",
+  "created_date",Now()
+  )
+  /*End update subscription status to unsubscribed in Subscription Log DE */
+   next @i
+   endif
+   /*Start unsubscribe all occurances of this email_address in Allsubscribers*/
+endif
+]%%
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title>Yankee Candle | Preference Center</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Manage your contact information and frequency with Yankee Candle">
+        <!--BEGIN ADDED FOR PREFCENTER 2 -->
+    <meta charset="utf-8">
+    
+    
+    
+    
+    
+    
+    
+        <!--BEGIN OPTIONAL-->
+    
+    
+    
+    
+    
+    <!--END OPTIONAL-->
+
+    
+    <link rel="icon" type="image/png" href="https://www.yankeecandle.com/on/demandware.static/Sites-homefragranceus-Site/-/default/dwedd1c27e/images/favicons/yankeecandle/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="https://www.yankeecandle.com/on/demandware.static/Sites-homefragranceus-Site/-/default/dw70d0fd2a/images/favicons/yankeecandle/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="https://www.yankeecandle.com/on/demandware.static/Sites-homefragranceus-Site/-/default/dw6514bdf2/images/favicons/yankeecandle/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://www.yankeecandle.com/on/demandware.static/Sites-homefragranceus-Site/-/default/dw7433e1e8/images/favicons/yankeecandle/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="https://www.yankeecandle.com/on/demandware.static/Sites-homefragranceus-Site/-/default/dw7385483d/images/favicons/yankeecandle/favicon-128.png" sizes="128x128" />
+   <link rel="stylesheet" href="https://cloud.e.yankeecandle.com/css">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cloud.e.yankeecandle.com/css" rel="stylesheet">
+</head>
+<body>
+    
+
+    <header role="banner">
+ <div class="container">
+  <a class="logo" href="https://www.yankeecandle.com/" title="Yankee Candle" target="_blank">
+   <img src="https://image.e.yankeecandle.com/lib/fe3e15717564047a741271/m/1/0089bd20-c8b6-4849-8d13-49443144f544.png" alt="Yankee Candle">
+  </a>
+  <p>Preference Center</p>
+ </div>
+</header>
+    <main id="wrapper" class="container content" role="main" aria-label="Form">
+        
+
+    <div id="pref-center-wrapper" class="ltk-clearfix">
+        <div class="ltk-pref-content center ltk-clearfix">
+
+            <div class="row ltk-clearfix">
+                <h2>Preferences have been&nbsp;updated.</h2>
+                <p class="mb-5">Sorry to see you go! Keep checking <a href="https://www.yankeecandle.com/">yankeecandle.com</a> for the latest exciting fragrance&nbsp;news.</p>
+              
+                <p class="mb-5">If you’re a Yankee Candle® Rewards member, please note that we won’t be able to send you a birthday coupon by email, but you can still receive your gift by contacting our Consumer Care department at <a class="ltk-no-und" href="tel:1-800-243-1776">1-800-243-1776</a>.</p>
+              
+                <p>(Mon–Fri: 9am – 8pm, Sat: 10am – 6pm Eastern&nbsp;Time)<br>Please allow 24 hours for the update.</p>
+            </div>
+            <div class="row ltk-clearfix">
+            <a class="back-button" href="https://www.yankeecandle.com/" title="Back To YankeeCandle.com">Back To yankeecandle.com</a>
+            </div>
+
+        </div>
+    </div>
+    <!-- End #pref-center-wrapper -->
+
+
+    </main>
+    <footer role="contentinfo">
+ <div class="container">
+  <p>©<span id="year"></span> Newell Brands. All rights reserved. 221 River Street, Hoboken, New Jersey 07030 United States</p>
+  <ul>
+   <li><a href="https://www.yankeecandle.com/support/contact-us" title="Contact Us" target="_blank">Contact Us</a></li>
+            
+   <li><a href="https://www.newellbrands.com/terms-of-use" title="Terms of Use" target="_blank">Terms of Use</a></li>
+          
+   <li><a href="https://privacy.newellbrands.com/index_en.html" title="Privacy Policy" target="_blank">Privacy Policy</a></li>
+          
+   <li><a href="https://privacy.newellbrands.com/index_en.html" title="We Do Not Sell Your Information " target="_blank">We Do Not Sell Your Information </a></li>
+  </ul>
+ </div>
+</footer>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+<!--script type="text/javascript" src="https://cloud.e.yankeecandle.com/functionality"></script>
+<script type="text/javascript" src="https://cloud.e.yankeecandle.com/ltkresize"></script-->
+
+<script>(function () {
+    function dispatch(name, data) {
+        if (document.dispatchEvent) {
+            var customEvent = new CustomEvent("ltk_" + name, obj);
+            customEvent.EventArgs = data;
+            document.dispatchEvent(customEvent);
+        }
+    }
+    //handle validation    
+    var elements = document.querySelectorAll("input,select");
+    var forms = document.querySelectorAll("form");
+    var invalidClassName = " ltkinputnotvalid";
+    var AddClassToElement = function (elem, cls) { elem.className += cls; }
+    var RemoveClassFromElement = function (elem, cls) { elem.className = elem.className.replace(cls, ""); }
+    var ElementHasClass = function (elem, cls) { return elem.className.indexOf(cls) > -1; }
+    for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        element.addEventListener("invalid", function (e) {
+            if (!e.target.validity.valid) {
+                AddClassToElement(e.target, invalidClassName);
+                if (ElementHasClass(e.target.parentNode, "dropdown"))
+                    AddClassToElement(e.target.parentNode, invalidClassName);
+            }
+        });
+        element.addEventListener("change", function (e) {
+            RemoveClassFromElement(e.target, invalidClassName);
+            if (ElementHasClass(e.target.parentNode, "dropdown"))
+                RemoveClassFromElement(e.target.parentNode, invalidClassName);
+        });
+    }
+    for (var j = 0; j < forms.length; j++) {
+        var form = forms[j];
+        form.noValidate = true;
+        form.addEventListener("submit", function (event) {
+            if (!event.target.checkValidity()) {
+                event.preventDefault();
+            }
+        });
+    }
+})();</script>
+<script>(function(a,m,i,g,o,s){o=a.createElement(g);s=a.getElementsByTagName(i)[0];o.src=m.origin+m.pathname+"/_t?eventType=CLOUDPAGESVISIT";o.width=0;o.height=0;o.style.display="none";s.appendChild(o);})(document,window.location,"body","img");</script>
+
+ <script src="https:&#x2F;&#x2F;110007161.collect.igodigital.com&#x2F;collect.js"></script>
+ <script>
+  if (_etmc && typeof _etmc.push === 'function') {
+   _etmc.push(['setOrgId', '110007161']);
+   _etmc.push(['trackPageView']);
+  }
+ </script>
+
+</body><!-- Scripts --></html>
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SMS opt out
+
+<!DOCTYPE html>
+<html>
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <style class="main_style">
+.layout-canvas-g {
+  background-color: #fff;
+  border: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  width: 100%;
+}
+.layout-canvas-g > .header,
+.layout-canvas-g > .section,
+.layout-canvas-g > .footer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  word-wrap: break-word;
+}
+.layout-canvas-g > .section {
+  margin: 10px 0;
+}
+.layout-canvas-g > .section > .columns {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+body {
+  color: #000;
+  font-family: Arial;
+  font-size: 12px;
+  margin: 0 auto;
+  max-width: 1280px;
+}
+@media only screen and (max-width: 480px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+  .responsive-td {
+    width: 100% !important;
+    display: block !important;
+    padding: 0 !important;
+  }
+}
+.layout-canvas-g > .section > .columns {
+  width: 100%;
+}
+
+</style>
+
+</head>
+<body>
+<div class="layout layout-canvas-g">
+ <div class="section">
+  <div class="columns col1">
+   <div data-type="slot" data-key="col1"></div>
+  </div>
+ </div>
+</div>
+</body>
+</html>
+_______________________________________________________________________________________________________________________________________________________________________
+

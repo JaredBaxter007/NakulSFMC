@@ -1,0 +1,346 @@
+SELECT user_id,Count(*) AS SaleOrders
+FROM IGO_Purchases
+where ((timestamp > '12/23/2021 12:00 AM' AND timestamp < '02/11/2022 11:59 PM')
+OR (timestamp > '05/27/2022 12:00 AM' AND timestamp < '07/14/2022 11:59PM'))
+GROUP BY user_id Having count(*)>1
+
+Data Extension	Sales_data_reportt
+Data Action	Update
+
+----------------------------------------------------------------------------------------------------------------------------------------
+SELECT user_id,Count(*) AS OutOfSaleOrders
+FROM IGO_Purchases
+where ((timestamp > '9/21/2021 12:00 AM' AND timestamp < '12/22/2021 11:59 PM')
+OR (timestamp > '07/15/2022 12:00 AM' AND timestamp < '10/07/2022 11:59PM'))
+GROUP BY user_id Having count(*)>1
+
+Data Extension	Sales_data_reportt
+Data Action	Update
+----------------------------------------------------------------------------------------------------------------------------------------
+SELECT User_id,
+CASE
+    WHEN (SaleOrders*100 /(OutOfSaleOrders + SaleOrders))>74 THEN 'Eligible'
+    ELSE 'NotEligible'
+END AS Status
+from Sales_data_reportt
+
+Data Extension	Sales_data_reportt
+Data Action	Update
+----------------------------------------------------------------------------------------------------------------------------------------------
+SELECT a.User_id,b.email,b.country from 
+sales_data_reportt a
+LEFT JOIN IGO_Profiles b on a.User_id=b.user_id
+where a.status='Eligible' and b.email is not null
+AND b.email NOT IN (Select email_address from YCC_UK_Suppression_List)
+
+
+Data Extension	YCUK_Sale_Only_Consumers
+Data Action	 Overwrite
+--------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT a.email,b.contact_id,b.first_name,b.last_name from
+YCUK_Sale_Only_Consumers a
+LEFT JOIN contacts_golden_id b on a.email=b.email_address
+
+Data Extension	YCUK_Sale_Only_Consumers
+Data Action	 Overwrite
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT SubscriberKey as contact_id,EmailAddress as email
+FROM ent._subscribers
+where EmailAddress in(
+select email from YCUK_Sale_Only_Consumers
+where contact_id is null)
+
+Data Extension	YCUK_Sale_Only_Consumers
+Data Action	Update
+---------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT email
+FROM YCUK_Sale_Only_Consumers
+where contact_id is null
+
+
+Data Extension	Test_sale_Deleted_Emails
+Data Action	 Overwrite
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+<script runat="server">
+Platform.Load("core", "1.1.1");
+
+
+
+//fetching data from MMS_10052022_Unsubscribe DE
+var records = retrieveAllRecords("Test_sale_Deleted_Emails");
+
+
+
+//initializing mobile list1
+var deleteList1= DataExtension.Init("04C747BD-759E-4A07-856A-4CBD90AB2B04");
+						   
+																			
+   var countList1=0;
+					
+   for(var i=0; i<records.length;i++){
+      var email= records[i]["email"];
+												
+      //delete data from Mobile list1 based on Subscriberkey
+  countList1 = deleteList1.Rows.Remove(["email"], [email]);
+														 
+																		
+										
+																								   
+ 
+   }
+
+
+
+function retrieveFieldNames(name) {
+
+
+
+   var attr = DataExtension.Retrieve({ Property: "Name", SimpleOperator: "equals", Value: name });
+
+
+
+   var de = DataExtension.Init(attr[0].CustomerKey);
+
+
+
+   var fields = de.Fields.Retrieve();
+
+
+
+   fields.sort(function (a, b) { return (a.Ordinal > b.Ordinal) ? 1 : -1 });
+
+
+
+   var out = [];
+
+
+
+   for (k in fields) {
+        out = out.concat(fields[k].Name);
+    }
+
+
+
+   return out;
+
+
+
+}
+
+
+
+function retrieveAllRecords(name) {
+
+
+
+   var prox = new Script.Util.WSProxy();
+
+
+
+   var cols = retrieveFieldNames(name);
+var config = {
+    name: name,
+    cols: ["email"]
+}
+
+
+
+
+
+   var records = [],
+        moreData = true,
+        reqID = data = null;
+
+
+
+   while (moreData) {
+
+
+
+       moreData = false;
+
+
+
+       if (reqID == null) {
+            data = prox.retrieve("DataExtensionObject[" + config.name + "]", config.cols);
+        } else {
+            data = prox.getNextBatch("DataExtensionObject[" + config.name + "]", reqID);
+        }
+
+
+
+       if (data != null) {
+            moreData = data.HasMoreRows;
+            reqID = data.RequestID;
+            for (var i = 0; i < data.Results.length; i++) {
+                var result_list = data.Results[i].Properties;
+                var obj = {};
+                for (k in result_list) {
+                    var key = result_list[k].Name;
+                    var val = result_list[k].Value
+                    if (key.indexOf("_") != 0) obj[key] = val;
+                }
+                records.push(obj);
+            }
+        }
+    }
+    return records;
+}
+</script>
+
+				
+Properties
+Name	Delete_Script
+External Key	4bddc458-e9ee-4246-a6d9-196d3ff6c19f
+Folder Location	Scripts
+Description	
+------------------------------------------------------------------------------------------------------------------------------------------------------
+select y.contact_id
+from YCUK_Sale_Only_Consumers y
+join Subscription s on y.contact_id=s.contact_id
+where subscription_status <> 'subscribed'
+
+
+Data Extension	Test_Sale_Unsubscribed_contacts
+Data Action	 Overwrite
+------------------------------------------------------------------------------------------------------------------------------------------------------
+<script runat="server">
+Platform.Load("core", "1.1.1");
+
+
+
+
+var records = retrieveAllRecords("Test_Sale_Unsubscribed_contacts");
+
+var deleteList1= DataExtension.Init("04C747BD-759E-4A07-856A-4CBD90AB2B04");
+						   
+																			
+   var countList1=0;
+					
+   for(var i=0; i<records.length;i++){
+      var contactid= records[i]["contact_id"];
+												
+      //delete data from Mobile list1 based on Subscriberkey
+  countList1 = deleteList1.Rows.Remove(["contact_id"], [contactid]);
+														 
+																		
+										
+													
+   }
+
+
+
+function retrieveFieldNames(name) {
+
+
+
+   var attr = DataExtension.Retrieve({ Property: "Name", SimpleOperator: "equals", Value: name });
+
+
+
+   var de = DataExtension.Init(attr[0].CustomerKey);
+
+
+
+   var fields = de.Fields.Retrieve();
+
+
+
+   fields.sort(function (a, b) { return (a.Ordinal > b.Ordinal) ? 1 : -1 });
+
+
+
+   var out = [];
+
+
+
+   for (k in fields) {
+        out = out.concat(fields[k].Name);
+    }
+
+
+
+   return out;
+
+
+
+}
+
+
+
+function retrieveAllRecords(name) {
+
+
+
+   var prox = new Script.Util.WSProxy();
+
+
+
+   var cols = retrieveFieldNames(name);
+var config = {
+    name: name,
+    cols: ["contact_id"]
+}
+
+
+
+
+
+   var records = [],
+        moreData = true,
+        reqID = data = null;
+
+
+
+   while (moreData) {
+
+
+
+       moreData = false;
+
+
+
+       if (reqID == null) {
+            data = prox.retrieve("DataExtensionObject[" + config.name + "]", config.cols);
+        } else {
+            data = prox.getNextBatch("DataExtensionObject[" + config.name + "]", reqID);
+        }
+
+
+
+       if (data != null) {
+            moreData = data.HasMoreRows;
+            reqID = data.RequestID;
+            for (var i = 0; i < data.Results.length; i++) {
+                var result_list = data.Results[i].Properties;
+                var obj = {};
+                for (k in result_list) {
+                    var key = result_list[k].Name;
+                    var val = result_list[k].Value
+                    if (key.indexOf("_") != 0) obj[key] = val;
+                }
+                records.push(obj);
+            }
+        }
+    }
+    return records;
+}
+</script>
+
+	
+
+Name	Delete_Unsubscribe_Contact
+External Key	c31b9975-8557-4142-a648-fc95c626680b
+Folder Location	Scripts			
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+SELECT a.email,b.opt_in_date,c.mailing_country,d.last_send_date,d.last_open_date,d.last_click_date 
+from
+YCUK_Sale_Only_Consumers a
+LEFT JOIN Subscription b on a.contact_id=b.contact_id
+LEFT JOIN ENT.contact_attributes c on a.contact_id=c.contact_id
+LEFT JOIN YCC_UK_Aggregate_Open_Click_Send d on a.contact_id=d.contact_id
+
+
+Data Extension	YCUK_Sale_Only_Consumers
+Data Action	Update
+-----------------------------------------------------------------------------------------------------------------------------------------------------

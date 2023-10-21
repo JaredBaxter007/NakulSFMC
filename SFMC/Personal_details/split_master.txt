@@ -1,0 +1,64 @@
+09-23-2022
+MMS_09232022
+
+
+MMS_09232022
+
+
+
+MMS_09232022_Segment1
+MMS_09232022_Unsubscribe
+
+MMS_09232022_Segment2
+MMS_09232022_Segment1
+ML
+
+MMS_09-23-2022_Segment1
+
+B29B4548-F8BB-460F-A551-EA080D88D6AC
+MMS_09-23-2022_Segment2
+697D49B4-FA66-4C26-A473-E066E7FCCC39
+
+
+
+
+A1
+
+
+SELECT TOP 50 percent phone,contact_key,locale
+FROM 
+(SELECT s.contact_key,s.phone,s.locale,
+ROW_NUMBER() OVER (PARTITION BY s.phone ORDER BY s.phone DESC)ROW_NUMBER
+FROM SMS_Subscribed_Audience_Final s
+where s.phone NOT IN(SELECT phone FROM Purchased_Last_14_Days_SMS))r
+where r.ROW_NUMBER=1
+
+
+
+A2
+
+
+SELECT phone,contact_key,locale
+FROM 
+(SELECT s.contact_key,s.phone,s.locale,
+ROW_NUMBER() OVER (PARTITION BY s.phone ORDER BY s.phone DESC)ROW_NUMBER
+FROM SMS_Subscribed_Audience_Final s
+where s.phone NOT IN(SELECT phone FROM Purchased_Last_14_Days_SMS union select phone from MMS_09232022_Segment1))r
+where r.ROW_NUMBER=1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

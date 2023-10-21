@@ -1,0 +1,12 @@
+SELECT CONVERT(varchar, r.optin_date, 101) as Date, Count (*) AS Subscriptions
+FROM
+(SELECT 'US' as locale, s.contact_key, s.phone, s.optin_date,
+ROW_NUMBER() OVER ( PARTITION BY s.phone ORDER BY s.optin_date DESC) AS RN
+FROM SMS_Subscription s
+WHERE
+s.subscription_status = 'subscribed') r
+WHERE
+r.RN = 1
+AND (r.optin_date > '12/31/2021 11:59 PM' AND r.optin_date <= '01/31/2022 11:59 PM')
+GROUP BY
+CONVERT(varchar, r.optin_date, 101)

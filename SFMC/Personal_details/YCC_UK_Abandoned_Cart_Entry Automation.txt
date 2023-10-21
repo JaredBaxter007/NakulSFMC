@@ -1,0 +1,161 @@
+Automation Name: YCC_UK_Abandoned_Cart_Entry
+---------------------------------------------
+
+1.1
+---
+select subscriber_key as email_address, timestamp as time_stamp,getdate() as created_date, data,c.contact_id as subscriber_key,c.first_name,c.last_name
+from abandoned_cart_1607339825 ac
+join Contacts_Golden_Id c on c.email_address=ac.subscriber_key
+join Subscription s on s.contact_id = c.contact_id
+where datediff(hour,timestamp,getdate())<=3
+AND 
+s.subscription_status = 'subscribed'
+
+
+Target DE: Abandoned_Cart_Entry_Intermediate
+
+
+1.2:
+----
+select 
+ C1.contact_id as subscriber_key,
+ C1.first_name,
+ C1.last_name,
+ C1.email_address,
+ C1.time_stamp,
+ C1.data
+from
+(
+select 
+C.contact_id, 
+C.first_name,
+C.last_name,
+C.email_address,
+a.timestamp as time_stamp,
+a.data,
+row_number() over(partition by email_address order by created_date asc) as rn
+from ent.contacts c
+join abandoned_cart_1607339825 a
+on a.subscriber_key =c.email_address
+join Subscription s on s.contact_id = c.contact_id
+where 
+datediff(hour,a.timestamp,getdate())<=1
+and
+s.subscription_status = 'subscribed'
+and
+email_address not in(select email_address from Abandoned_Cart_Entry_Intermediate) 
+and
+email_address not in (Select email_address from YCC_UK_Suppression_List)
+) C1
+where rn=1 
+
+
+
+Target DE: Abandoned_Cart_Entry
+
+
+1.3:
+----
+select subscriber_key, time_stamp, first_name, last_name, data, email_address
+from Abandoned_Cart_Entry_Intermediate
+where
+email_address not in (Select email_address from YCC_UK_Suppression_List)
+
+
+Target DE: Abandoned_Cart_Entry
+
+
+
+
+1.4(script):
+------------
+<script runat="server">
+ Platform.Load("Core", "1")
+
+
+ var de = DataExtension.Init("Abandoned_Cart_Entry");
+  var rows = de.Rows.Retrieve();
+    
+    for(var i=0; i<rows.length;i++){
+  
+      var c= rows[i]["subscriber_key"];
+      var email=rows[i]["email_address"];
+      var fname=rows[i]["first_name"];
+      var lname=rows[i]["last_name"];
+      var trigger = rows[i]["data"];
+      var time=rows[i]["time_stamp"];
+   
+//fetching data from Abandoned_Cart_Entry
+ var data ={
+     "trigger_payload": trigger
+   };
+   var content_type = 'application/json';
+   try{
+ var result = HTTP.Post("http://nova.recs.igodigital.com/110007163/trigger", "content_type",Stringify(data));
+   
+
+//consuming data from external service
+    
+    var obj = Platform.Function.ParseJSON(result.Response[0]);
+    var products = obj["current_cart"];
+ 
+	  Platform.Function.UpsertDE("Abandoned_Cart_Archive",["date_triggered","subscriber_key"],[time,c],["email_address","first_name","last_name"],[email,fname,lname]);
+  //updating Abandoned_Cart_Archive fields like email_address,first_name,last_name based on date_triggered,subscriber_key
+
+    for (var j = 0; j < products.length; j ++) {
+    
+    //save to a javascript variable
+    var image_link = products[j]["image_link"];
+    var product_code = products[j]["product_code"];
+    var name = products[j]["name"];
+    var regular_price = products[j]["regular_price"];
+    var sale_price = products[j]["sale_price"];
+    var link = products[j]["link"];
+    var sku= products[j]["sku_id"];
+       var quantity= products[j]["quantity"];
+	
+	var temp ="SKUIDREF" + (j+1);
+      var temp2 ="ImageLinkRef" + (j+1);
+      var temp3 ="ProductNameRef" + (j+1);
+      var temp4 =" ProductCodeRef" + (j+1);
+      var temp5 =" RegularPriceRef" + (j+1);
+       var temp6 =" SalePriceRef" + (j+1);
+      var temp7 =" ProductLinkRef" + (j+1);
+      var temp8 =" QuantityRef" + (j+1);
+
+Platform.Function.UpsertDE("Abandoned_Cart_Archive",["date_triggered","subscriber_key"],[time,c],[temp,temp2,temp3,temp4,temp5,temp6,temp7,temp8],[sku,image_link,name,product_code,regular_price,sale_price,link,quantity]);
+
+//updating Abandoned_Cart_Archive DE remaining fields based on date_triggered,subscriber_key
+
+var exclusion_DE = DataExtension.Init("ENT.PC_Exclusion_Skus");
+  var exclusion_rows = exclusion_DE.Rows.Lookup(["Sku"], [sku]);
+
+//fetching sku value from ENT.PC_Exclusion_Skus DE 
+
+//if data found updating "suppressed" column with true in Abandoned_Cart_Archive DE based on date_triggered,subscriber_key
+if(exclusion_rows.length > 0) {
+      
+       var Archive = DataExtension.Init("Abandoned_Cart_Archive");
+        Archive.Rows.Update(
+         {
+           "suppressed":true
+         },
+         ["date_triggered","subscriber_key"],[time,c]
+                    
+        ); 
+       
+    }
+    }
+	}
+  
+    catch(e)
+    { 
+      Write(Stringify(e)); 
+    }
+    
+    }
+    
+
+ 
+ 
+</script>

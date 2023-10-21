@@ -1,0 +1,101 @@
+1.1
+-----
+select distinct  c.contact_id as subscriber_key, c.email_address, 
+case when s.preference_last_modified_date is null then cp.created_date else s.preference_last_modified_date end as created_date,
+c.first_name, c.last_name,
+/*determining if customer is eligible for 2B*/
+case when
+(
+ pr.journey_exit_date is not null
+and  
+(datediff(day,pr.journey_entry_date , getdate()) <=365 )
+and
+(
+datediff(day,pc.email_2B_received_date,getdate())>365
+or pc.journey_entry_date is null
+)
+)
+then 'true' else 'false' end as eligible_for_2B
+from contact_preferences cp
+inner join Subscription s on s.contact_id = cp.contact_id
+inner join Contacts_Golden_Id c on c.contact_id = cp.contact_id
+left join preference_completion_tracker pc on pc.email_address = c.email_address
+left join preference_reminder_tracker pr on pr.email_address = c.email_address
+
+where 
+c.email_address != 'tay.aymee@me.com' AND 
+cp.answer_id ='a0' and
+s.subscription_status = 'subscribed' and
+(
+/*completed preference page today for first time*/
+datediff(hour,cp.created_date , getdate()) <=24   or
+/*historical data- migrated with value for preference quaifier = true and last modified date set to launch date minus 1 day*/
+( pc.journey_entry_date is  null and  
+datediff(day,s.preference_last_modified_date , getdate()) >30 
+) 
+/*re-entry criteria -submitted preference centre and has not been in Journey for last 30 days*/
+ or
+( pc.journey_exit_date is not null
+and  (datediff(day,pc.journey_entry_date , getdate()) >30 )
+and datediff(hour,s.preference_last_modified_date , getdate()) <=24 )
+)
+
+Target Data Extension
+Data Extension	Preference_Completion_Journey_PreEntry
+Data Action	Update
+
+2.1:
+----
+
+select p.email_address, p.first_name, p.last_name, p.eligible_for_2B, p.subscriber_key,
+p.created_date,
+/*determining if customer is currently in welcome series journey*/
+case when ((w.journey_entry_date> w.journey_exit_date)  or
+(w.journey_entry_date is not null and  w.journey_exit_date is null))
+then 'true' else 'false' end as in_ws
+
+from Preference_completion_Journey_PreEntry p
+left join welcome_tracker w on w.subscriber_key = p.subscriber_key
+
+/*allow entry only if one of two triggers is true- either eligible for 2B or in WS*/
+where eligible_for_2B = 'true' or 
+
+((w.journey_entry_date> w.journey_exit_date)  or
+(w.journey_entry_date is not null and  w.journey_exit_date is null))
+
+Target Data Extension
+Data Extension	Preference_Completion_Journey_Entry
+Data Action	Update
+
+3.1:
+----
+
+SELECT distinct pt.subscriber_key, pt.journey_Exit_date as journey_entry_date, pe.email_address,pe.first_name, pe.last_name, pe.in_ws from Preference_Completion_Journey_Entry pe
+inner join Preference_Completion_Tracker pt on pt.subscriber_key = pe.subscriber_key
+where pt.subscriber_key is not null
+
+
+Target Data Extension
+Data Extension	Preference_Completion_Tracker
+Data Action	Update
+
+
+4.1:
+------
+
+select 
+   newID() as guid ,
+   PE.subscriber_key,  PE.email_address,
+      PE.first_name, PE.last_name, 
+   journey_entry_date, journey_exit_date
+  from 
+  Preference_Completion_Journey_Entry PE
+ join
+ Preference_Completion_Tracker PT
+ on PE.subscriber_key = PT.subscriber_key
+ where journey_exit_date is not null  and  datediff(minute, journey_exit_date, getdate()) <= 60
+ 
+ Target Data Extension
+Data Extension	Preference_Completion_Tracker_Log
+Data Action	Append
+

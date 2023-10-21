@@ -1,0 +1,94 @@
+MMS_11-28-2022_Deletion
+
+
+<script runat="server">
+Platform.Load("core", "1.1.1");
+
+//fetching data from MMS_11282022_Unsubscribe DE
+var records = retrieveAllRecords("MMS_11282022_Unsubscribe");
+
+ //initializing mobile list1
+var deleteList1= DataExtension.Init("AD5279D3-9E87-463D-838C-63D7097BFF0A");
+
+   var countList1=0;
+   
+   for(var i=0; i<records.length;i++){
+      var phone= records[i]["phone"];
+      var contactkey= records[i]["contact_key"];
+      //delete data from Mobile list1 based on Subscriberkey
+  countList1 = deleteList1.Rows.Remove(["SubscriberKey"], [contactkey]); 
+    
+  if(countList1 > 0 ){
+Platform.Function.UpsertData("MMS_11282022_Unsubscribe",["phone"],[phone],["is_deleted"],["True"]);
+}
+   }
+
+function retrieveFieldNames(name) {
+
+    var attr = DataExtension.Retrieve({ Property: "Name", SimpleOperator: "equals", Value: name });
+
+    var de = DataExtension.Init(attr[0].CustomerKey);
+
+    var fields = de.Fields.Retrieve();
+
+    fields.sort(function (a, b) { return (a.Ordinal > b.Ordinal) ? 1 : -1 });
+
+    var out = [];
+
+    for (k in fields) {
+        out = out.concat(fields[k].Name);
+    }
+
+    return out;
+
+}
+
+function retrieveAllRecords(name) {
+
+    var prox = new Script.Util.WSProxy();
+
+    var cols = retrieveFieldNames(name);
+ var config = {
+    name: name,
+    cols: ["phone","contact_key"],
+   filter:{
+                    Property:"is_deleted",
+                    SimpleOperator:"equals",
+                    Value:"False"
+                }
+}
+
+ 
+
+    var records = [],
+        moreData = true,
+        reqID = data = null;
+
+    while (moreData) {
+
+        moreData = false;
+
+        if (reqID == null) {
+            data = prox.retrieve("DataExtensionObject[" + config.name + "]", config.cols,config.filter);
+        } else {
+            data = prox.getNextBatch("DataExtensionObject[" + config.name + "]", reqID);
+        }
+
+        if (data != null) {
+            moreData = data.HasMoreRows;
+            reqID = data.RequestID;
+            for (var i = 0; i < data.Results.length; i++) {
+                var result_list = data.Results[i].Properties;
+                var obj = {};
+                for (k in result_list) {
+                    var key = result_list[k].Name;
+                    var val = result_list[k].Value
+                    if (key.indexOf("_") != 0) obj[key] = val;
+                }
+                records.push(obj);
+            }
+        }
+    }
+    return records;
+ }
+</script>

@@ -1,0 +1,1170 @@
+<Root>
+	<CustomerOrderLocale>fr-FR</CustomerOrderLocale>
+	<templateName>ShipmentConfirmation</templateName>
+	<siteCode>YankeeEUR</siteCode>
+	<verificationKey>3145ACD9360BFAA53AF8613EA158D2B4EB8E9BD59F68C5D1328EFAB8D5EABD59</verificationKey>
+	<timestampUTC>5/23/2022 2:30:12 PM</timestampUTC>
+	<ToAddress>
+		<Name>Pauline Delfosse</Name>
+		<EmailAddress>anna.czainska@newellco.com</EmailAddress>
+	</ToAddress>
+	<FromAddress>
+		<Name>YankeeEUR</Name>
+		<EmailAddress></EmailAddress>
+	</FromAddress>
+	<BccAddress />
+	<subject>IZ</subject>
+	<isBodyHtml>true</isBodyHtml>
+	<TemplateContent>
+		<OrderNumber>HFFR00054829419</OrderNumber>
+		<TrackingNumbers />
+		<TrackingNumber>1Z59141W6801071055</TrackingNumber>
+		<TrackingUrl>https://wwwapps.ups.com/WebTracking/track?trackNums=1Z59141W6801071055&amp;track.x=Track</TrackingUrl>
+		<BillingEmail>pauline.delfosse@yahoo.fr</BillingEmail>
+		<BillingPhone>00330675812209</BillingPhone>
+		<ShippingAddress>
+			<ID>29428423</ID>
+			<IsChanged>false</IsChanged>
+			<FirstName>Pauline</FirstName>
+			<PhoneticFirstName></PhoneticFirstName>
+			<LastName>Delfosse</LastName>
+			<PhoneticLastName />
+			<Address1>17 RUE DU VERT BOIS</Address1>
+			<Address2>ANSERVILLE</Address2>
+			<Address3 />
+			<City>BORNEL</City>
+			<Province />
+			<PostalCode>60540</PostalCode>
+			<Country>FRA</Country>
+			<Email>pauline.delfosse@yahoo.fr</Email>
+			<Phone>00330675812209</Phone>
+			<MobilePhone />
+			<CompanyName />
+			<Salutation />
+			<Suffix />
+			<GeoLatitude>0.00</GeoLatitude>
+			<GeoLongitude>0.00</GeoLongitude>
+			<GeoLocationSourceID>0</GeoLocationSourceID>
+		</ShippingAddress>
+		<SfmcGlobalVersion>5</SfmcGlobalVersion>
+		<AddressType></AddressType>
+		<ShipmentShippingMethod></ShipmentShippingMethod>
+		<ShippingCost>0,00 €</ShippingCost>
+		<ReturnTotal>0,00 €</ReturnTotal>
+		<ShipmentNet>11,62 €</ShipmentNet>
+		<ItemCount>4</ItemCount>
+		<ReturnSubtotal />
+		<OrderSubtotal>40,41 €</OrderSubtotal>
+		<OrderTotal>40,41 €</OrderTotal>
+		<OrderDiscountTotal />
+		<ShippingState />
+		<TaxTotal>1,94 €</TaxTotal>
+		<ReturnTax>0,00 €</ReturnTax>
+		<ShippingTotal>0,00 €</ShippingTotal>
+		<ReturnShippingTotal>0,00 €</ReturnShippingTotal>
+		<FirstRaNumber></FirstRaNumber>
+		<ShipmentTotal>11,62 €</ShipmentTotal>
+		<BillingName>Pauline Delfosse</BillingName>
+		<OrderDate>dimanche 22 mai 2022</OrderDate>
+		<BillingAddress>
+			<ID>29428422</ID>
+			<IsChanged>false</IsChanged>
+			<FirstName>Pauline</FirstName>
+			<PhoneticFirstName />
+			<LastName>Delfosse</LastName>
+			<PhoneticLastName />
+			<Address1>17 RUE DU VERT BOIS</Address1>
+			<Address2>ANSERVILLE</Address2>
+			<Address3 />
+			<City>BORNEL</City>
+			<Province />
+			<PostalCode>60540</PostalCode>
+			<Country>FRA</Country>
+			<Email>pauline.delfosse@yahoo.fr</Email>
+			<Phone>00330675812209</Phone>
+			<MobilePhone />
+			<CompanyName />
+			<Salutation />
+			<Suffix />
+			<GeoLatitude>0.00</GeoLatitude>
+			<GeoLongitude>0.00</GeoLongitude>
+			<GeoLocationSourceID>0</GeoLocationSourceID>
+		</BillingAddress>
+		<OrderShippingMethod>UPS Standard</OrderShippingMethod>
+		<ManualChargeReason></ManualChargeReason>
+		<ManualChargeAmount></ManualChargeAmount>
+		<ManualCreditReason></ManualCreditReason>
+		<ManualCreditAmount></ManualCreditAmount>
+		<OrderPaymentMethod>Visa</OrderPaymentMethod>
+		<StorefrontTrackOrderUrl></StorefrontTrackOrderUrl>
+		<ShippingCarrier>UPS</ShippingCarrier>
+		<ReturnGiftCardNumber></ReturnGiftCardNumber>
+		<ReturnHandlingFee>0,00 €</ReturnHandlingFee>
+		<ReturnDiscountTotal>0,00 €</ReturnDiscountTotal>
+		<ProcessingFee></ProcessingFee>
+		<ShippingWarehouse>
+			<RoutingID>36</RoutingID>
+			<Location>HomeFragrance CZ</Location>
+			<ZipCode>11111</ZipCode>
+			<WarehouseCode>YCZ</WarehouseCode>
+			<SiteID>13</SiteID>
+			<ShippingPlugin>DECK.Plugins.Shipment.ShipmentApiPushQueued, DECK.Plugins</ShippingPlugin>
+			<ShippingHeaderPlugin>DECK.Plugins.Shipment.AzureQueue.Models.OrderShipment, DECK.Plugins.Shipment.AzureQueue</ShippingHeaderPlugin>
+			<ShippingItemPlugin>DECK.Plugins.Shipment.AzureQueue.Models.OrderShipmentItem, DECK.Plugins.Shipment.AzureQueue</ShippingItemPlugin>
+			<ShippingErrorPlugin />
+			<CutoffHourToShipToday>0</CutoffHourToShipToday>
+			<ProcessingDelayHours>0</ProcessingDelayHours>
+			<ClosedDates />
+			<WorkingDays />
+			<WarehouseShip>false</WarehouseShip>
+			<OmniPickup>false</OmniPickup>
+			<OmniShip>false</OmniShip>
+			<Address1 />
+			<Address2 />
+			<City />
+			<Province />
+			<Email />
+			<Phone />
+			<ParentWarehouseID />
+			<GeoLatitude>(79,228,162,514,264,337,593,543,950,335.00)</GeoLatitude>
+			<GeoLongitude>(79,228,162,514,264,337,593,543,950,335.00)</GeoLongitude>
+			<Country>FR</Country>
+			<WarehouseType>0</WarehouseType>
+			<Priority>0</Priority>
+			<OpenShipOrderCapacity>0</OpenShipOrderCapacity>
+			<OpenPickupOrderCapacity>0</OpenPickupOrderCapacity>
+			<Status>0</Status>
+			<InventoryListName />
+			<Region />
+			<Custom1 />
+			<Custom2 />
+			<Custom3 />
+			<Custom4 />
+			<Custom5 />
+		</ShippingWarehouse>
+		<InternalSalesNumber />
+		<OrderItemRefundAdjustmentsTotal></OrderItemRefundAdjustmentsTotal>
+		<HasRefundAdjustment>false</HasRefundAdjustment>
+		<Custom1 />
+		<Custom2>0036S00005l6M5IQAU</Custom2>
+		<Custom3>Yankeecandle</Custom3>
+		<Custom4 />
+		<Custom5>Standard</Custom5>
+		<ShippingDiscount>0,00 €</ShippingDiscount>
+		<ShippingCostBeforeDiscount>0,00 €</ShippingCostBeforeDiscount>
+		<ShippingCostAfterDiscount>0,00 €</ShippingCostAfterDiscount>
+		<OrderPaymentDetails>
+			<PaymentProcessor>Cybersource</PaymentProcessor>
+			<PaymentProcessorSubType>CreditCard</PaymentProcessorSubType>
+			<AuthorizedAmount>40.41</AuthorizedAmount>
+			<CapturedAmount>11.62</CapturedAmount>
+			<CreditedAmount>0.00</CreditedAmount>
+			<Generic1>Visa</Generic1>
+			<Generic2>7229</Generic2>
+			<Generic3>6/2022</Generic3>
+			<Generic4>NWL*Yankee FR</Generic4>
+			<Generic5>false</Generic5>
+			<IsEarlyCapture>false</IsEarlyCapture>
+			<PaymentToken />
+		</OrderPaymentDetails>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>SF_Contact_ID</Key>
+			<Value>0036S00005l6M5IQAU</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>cybsRequestId</Key>
+			<Value>6532087379676165704015</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>cybsDmDecision</Key>
+			<Value>ACCEPT</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>AVSFlag</Key>
+			<Value>Override</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>BackupTaxSource</Key>
+			<Value>false</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>Residential</Key>
+			<Value>true</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>brand</Key>
+			<Value>Yankeeeur</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>ProAccount</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>sapOrderReason</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>originalShippingName</Key>
+			<Value>Livraison standard</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>originalShippingDescription</Key>
+			<Value>Disponible sous 3 à 5 jours ouvrables</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>CSRepEmail</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>ShippingAddressISO2CountryCode</Key>
+			<Value>FR</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>BillingAddressISO2CountryCode</Key>
+			<Value>FR</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>EmailTemplateOverride</Key>
+			<Value>fr-FR</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+		<OrderExtended>
+			<ID>0</ID>
+			<Key>WOISL.MaxPaymentTransactionID</Key>
+			<Value>7452254</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</OrderExtended>
+	</TemplateContent>
+	<ItemDetails>
+		<SfmcGlobalVersion>5</SfmcGlobalVersion>
+		<ProductImage>https://s7d9.scene7.com/is/image/YankeeCandle/1137673e-1?wid=1000&amp;hei=1000</ProductImage>
+		<StyleNumber>Citron lavande</StyleNumber>
+		<Attribute>Purple</Attribute>
+		<ProductSize></ProductSize>
+		<Quantity>1</Quantity>
+		<Custom1>5038580069716</Custom1>
+		<Custom2>Yankee Candle</Custom2>
+		<Custom3>Car Jar® (lot de trois)</Custom3>
+		<Custom4></Custom4>
+		<Custom5 />
+		<GiftCardPin />
+		<GrossPrice>6,90 €</GrossPrice>
+		<NetPrice>6,90 €</NetPrice>
+		<MSRP>0,00 €</MSRP>
+		<AlternateStyle></AlternateStyle>
+		<GTIN>5038580069716</GTIN>
+		<GiftCardNumber />
+		<GiftMessage />
+		<GiftCardToName />
+		<ReturnReason></ReturnReason>
+		<HasAlternateStyle />
+		<EstimatedShipDate></EstimatedShipDate>
+		<GiftCardFromName />
+		<GrossPriceWithQuantity>6,90 €</GrossPriceWithQuantity>
+		<ItemStatus>Shipped</ItemStatus>
+		<AlternateStyleUrl />
+		<ReturnAuthNumber></ReturnAuthNumber>
+		<ShippingMethod>UPS Standard</ShippingMethod>
+		<MsrpString></MsrpString>
+		<ShippingMethodDescription></ShippingMethodDescription>
+		<EstimatedShippingDateInterval></EstimatedShippingDateInterval>
+		<TrackingNumber>1Z59141W6801071055</TrackingNumber>
+		<TrackingUrl>https://wwwapps.ups.com/WebTracking/track?trackNums=1Z59141W6801071055&amp;track.x=Track</TrackingUrl>
+		<CarrierName>UPS</CarrierName>
+		<DeckSku>ORCL_1137673E</DeckSku>
+		<ItemDiscount>0,86 €</ItemDiscount>
+		<IsStorePickup>false</IsStorePickup>
+		<IsPreBackOrder>false</IsPreBackOrder>
+		<WarehouseLocation>HomeFragrance CZ</WarehouseLocation>
+		<WarehouseCode>YCZ</WarehouseCode>
+		<MarketingText></MarketingText>
+		<MarketingPrice>5,89 €</MarketingPrice>
+		<Extended>
+			<ID>366467506</ID>
+			<Key>Size Scale</Key>
+			<Value>US</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467507</ID>
+			<Key>Size</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467508</ID>
+			<Key>ContractID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467509</ID>
+			<Key>ContractLineID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467510</ID>
+			<Key>MaterialNumber</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467511</ID>
+			<Key>NarvarCategory</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467512</ID>
+			<Key>StrikeThroughValue</Key>
+			<Value>6.9</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467513</ID>
+			<Key>DisplayValue</Key>
+			<Value>6.04</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467514</ID>
+			<Key>BundleParent</Key>
+			<Value>true</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467515</ID>
+			<Key>candleProductType</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467516</ID>
+			<Key>candleProductSubtype</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467517</ID>
+			<Key>GroupID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467518</ID>
+			<Key>LineItemID</Key>
+			<Value>1</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467519</ID>
+			<Key>itemGiftMessage1</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467520</ID>
+			<Key>itemGiftMessage2</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467521</ID>
+			<Key>itemGiftMessage3</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467522</ID>
+			<Key>TrueFitRecommendedSize</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467523</ID>
+			<Key>PackingSlipMessage</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467524</ID>
+			<Key>fromStore</Key>
+			<Value>false</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Returnable>true</Returnable>
+		<CancelReason />
+		<CancelReasonAdditionalText />
+		<OrderItemAdjustmentDetails>
+			<AdjustmentType>ItemDiscount</AdjustmentType>
+			<NetPrice>0.86</NetPrice>
+			<GrossPrice>0.86</GrossPrice>
+			<PromotionID>AF_TBGFR125</PromotionID>
+			<CampaignID>Affiliate Promotional Codes_12.5% Off - FR</CampaignID>
+			<DiscountText>The Beans Group -12.5%</DiscountText>
+			<CouponCode>TBGFR125-RQUADWQEDQ</CouponCode>
+			<AdjustmentClassificationID>0</AdjustmentClassificationID>
+			<AdjustmentClassificationText></AdjustmentClassificationText>
+			<AdjustmentDate>2022-05-22T08:41:06.74</AdjustmentDate>
+			<OrderTransactionIdentifier>1</OrderTransactionIdentifier>
+			<OrderItemID>79847549</OrderItemID>
+			<AdjustmentMultiplier>-1</AdjustmentMultiplier>
+		</OrderItemAdjustmentDetails>
+		<OrderItemAdjustmentDetails>
+			<AdjustmentType>AdvancedCapture</AdjustmentType>
+			<NetPrice>5.03</NetPrice>
+			<GrossPrice>6.04</GrossPrice>
+			<PromotionID />
+			<CampaignID />
+			<DiscountText />
+			<CouponCode />
+			<PaymentTransactions>
+				<ID>16117730</ID>
+				<OrderID>0</OrderID>
+				<OrderItemAdjustmentID>97565358</OrderItemAdjustmentID>
+				<PaymentTransactionID>7452254</PaymentTransactionID>
+				<Amount>6.04</Amount>
+				<OrderPaymentID>3725852</OrderPaymentID>
+				<DateCreated>2022-05-23T14:30:11.89</DateCreated>
+				<PaymentError>false</PaymentError>
+				<PaymentPending>false</PaymentPending>
+			</PaymentTransactions>
+			<Taxes>
+				<ID>16485095</ID>
+				<OrderItemAdjustmentID>97565358</OrderItemAdjustmentID>
+				<TaxType>3</TaxType>
+				<Amount>1.01</Amount>
+			</Taxes>
+			<AdjustmentClassificationID>0</AdjustmentClassificationID>
+			<AdjustmentClassificationText></AdjustmentClassificationText>
+			<AdjustmentDate>2022-05-23T14:30:11.887</AdjustmentDate>
+			<OrderTransactionIdentifier>5</OrderTransactionIdentifier>
+			<OrderItemID>79847549</OrderItemID>
+			<AdjustmentMultiplier>1</AdjustmentMultiplier>
+		</OrderItemAdjustmentDetails>
+	</ItemDetails>
+	<ItemDetails>
+		<SfmcGlobalVersion>5</SfmcGlobalVersion>
+		<ProductImage>https://s7d9.scene7.com/is/image/YankeeCandle/1676090E_GB?wid=1000&amp;hei=1000</ProductImage>
+		<StyleNumber>Vanille et citron vert</StyleNumber>
+		<Attribute>Green</Attribute>
+		<ProductSize></ProductSize>
+		<Quantity>1</Quantity>
+		<Custom1>5038581109336</Custom1>
+		<Custom2>Yankee Candle</Custom2>
+		<Custom3>Fondant de cire</Custom3>
+		<Custom4></Custom4>
+		<Custom5 />
+		<GiftCardPin />
+		<GrossPrice>1,86 €</GrossPrice>
+		<NetPrice>1,86 €</NetPrice>
+		<MSRP>0,00 €</MSRP>
+		<AlternateStyle></AlternateStyle>
+		<GTIN>5038581109336</GTIN>
+		<GiftCardNumber />
+		<GiftMessage />
+		<GiftCardToName />
+		<ReturnReason></ReturnReason>
+		<HasAlternateStyle />
+		<EstimatedShipDate></EstimatedShipDate>
+		<GiftCardFromName />
+		<GrossPriceWithQuantity>1,86 €</GrossPriceWithQuantity>
+		<ItemStatus>Shipped</ItemStatus>
+		<AlternateStyleUrl />
+		<ReturnAuthNumber></ReturnAuthNumber>
+		<ShippingMethod>UPS Standard</ShippingMethod>
+		<MsrpString></MsrpString>
+		<ShippingMethodDescription></ShippingMethodDescription>
+		<EstimatedShippingDateInterval></EstimatedShippingDateInterval>
+		<TrackingNumber>1Z59141W6801071055</TrackingNumber>
+		<TrackingUrl>https://wwwapps.ups.com/WebTracking/track?trackNums=1Z59141W6801071055&amp;track.x=Track</TrackingUrl>
+		<CarrierName>UPS</CarrierName>
+		<DeckSku>ORCL_1676090E</DeckSku>
+		<ItemDiscount />
+		<IsStorePickup>false</IsStorePickup>
+		<IsPreBackOrder>false</IsPreBackOrder>
+		<WarehouseLocation>HomeFragrance CZ</WarehouseLocation>
+		<WarehouseCode>YCZ</WarehouseCode>
+		<MarketingText></MarketingText>
+		<MarketingPrice>1,55 €</MarketingPrice>
+		<Extended>
+			<ID>366467527</ID>
+			<Key>Size Scale</Key>
+			<Value>US</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467529</ID>
+			<Key>Size</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467531</ID>
+			<Key>ContractID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467532</ID>
+			<Key>ContractLineID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467534</ID>
+			<Key>MaterialNumber</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467536</ID>
+			<Key>NarvarCategory</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467538</ID>
+			<Key>StrikeThroughValue</Key>
+			<Value>2.65</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467540</ID>
+			<Key>DisplayValue</Key>
+			<Value>1.86</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467542</ID>
+			<Key>BundleParent</Key>
+			<Value>true</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467544</ID>
+			<Key>candleProductType</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467546</ID>
+			<Key>candleProductSubtype</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467548</ID>
+			<Key>GroupID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467550</ID>
+			<Key>LineItemID</Key>
+			<Value>2</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467552</ID>
+			<Key>itemGiftMessage1</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467554</ID>
+			<Key>itemGiftMessage2</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467557</ID>
+			<Key>itemGiftMessage3</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467558</ID>
+			<Key>TrueFitRecommendedSize</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467560</ID>
+			<Key>PackingSlipMessage</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467562</ID>
+			<Key>fromStore</Key>
+			<Value>false</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Returnable>true</Returnable>
+		<CancelReason />
+		<CancelReasonAdditionalText />
+		<OrderItemAdjustmentDetails>
+			<AdjustmentType>AdvancedCapture</AdjustmentType>
+			<NetPrice>1.55</NetPrice>
+			<GrossPrice>1.86</GrossPrice>
+			<PromotionID />
+			<CampaignID />
+			<DiscountText />
+			<CouponCode />
+			<PaymentTransactions>
+				<ID>16117732</ID>
+				<OrderID>0</OrderID>
+				<OrderItemAdjustmentID>97565359</OrderItemAdjustmentID>
+				<PaymentTransactionID>7452254</PaymentTransactionID>
+				<Amount>1.86</Amount>
+				<OrderPaymentID>3725852</OrderPaymentID>
+				<DateCreated>2022-05-23T14:30:11.903</DateCreated>
+				<PaymentError>false</PaymentError>
+				<PaymentPending>false</PaymentPending>
+			</PaymentTransactions>
+			<Taxes>
+				<ID>16485097</ID>
+				<OrderItemAdjustmentID>97565359</OrderItemAdjustmentID>
+				<TaxType>3</TaxType>
+				<Amount>0.31</Amount>
+			</Taxes>
+			<AdjustmentClassificationID>0</AdjustmentClassificationID>
+			<AdjustmentClassificationText></AdjustmentClassificationText>
+			<AdjustmentDate>2022-05-23T14:30:11.893</AdjustmentDate>
+			<OrderTransactionIdentifier>6</OrderTransactionIdentifier>
+			<OrderItemID>79847551</OrderItemID>
+			<AdjustmentMultiplier>1</AdjustmentMultiplier>
+		</OrderItemAdjustmentDetails>
+	</ItemDetails>
+	<ItemDetails>
+		<SfmcGlobalVersion>5</SfmcGlobalVersion>
+		<ProductImage>https://s7d9.scene7.com/is/image/YankeeCandle/1676081E_GB?wid=1000&amp;hei=1000</ProductImage>
+		<StyleNumber>Mangue Et Pêche</StyleNumber>
+		<Attribute>Yellow</Attribute>
+		<ProductSize></ProductSize>
+		<Quantity>1</Quantity>
+		<Custom1>5038581109244</Custom1>
+		<Custom2>Yankee Candle</Custom2>
+		<Custom3>Fondant de cire</Custom3>
+		<Custom4></Custom4>
+		<Custom5 />
+		<GiftCardPin />
+		<GrossPrice>1,86 €</GrossPrice>
+		<NetPrice>1,86 €</NetPrice>
+		<MSRP>0,00 €</MSRP>
+		<AlternateStyle></AlternateStyle>
+		<GTIN>5038581109244</GTIN>
+		<GiftCardNumber />
+		<GiftMessage />
+		<GiftCardToName />
+		<ReturnReason></ReturnReason>
+		<HasAlternateStyle />
+		<EstimatedShipDate></EstimatedShipDate>
+		<GiftCardFromName />
+		<GrossPriceWithQuantity>1,86 €</GrossPriceWithQuantity>
+		<ItemStatus>Shipped</ItemStatus>
+		<AlternateStyleUrl />
+		<ReturnAuthNumber></ReturnAuthNumber>
+		<ShippingMethod>UPS Standard</ShippingMethod>
+		<MsrpString></MsrpString>
+		<ShippingMethodDescription></ShippingMethodDescription>
+		<EstimatedShippingDateInterval></EstimatedShippingDateInterval>
+		<TrackingNumber>1Z59141W6801071055</TrackingNumber>
+		<TrackingUrl>https://wwwapps.ups.com/WebTracking/track?trackNums=1Z59141W6801071055&amp;track.x=Track</TrackingUrl>
+		<CarrierName>UPS</CarrierName>
+		<DeckSku>ORCL_1676081E</DeckSku>
+		<ItemDiscount />
+		<IsStorePickup>false</IsStorePickup>
+		<IsPreBackOrder>false</IsPreBackOrder>
+		<WarehouseLocation>HomeFragrance CZ</WarehouseLocation>
+		<WarehouseCode>YCZ</WarehouseCode>
+		<MarketingText></MarketingText>
+		<MarketingPrice>1,55 €</MarketingPrice>
+		<Extended>
+			<ID>366467567</ID>
+			<Key>Size Scale</Key>
+			<Value>US</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467569</ID>
+			<Key>Size</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467570</ID>
+			<Key>ContractID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467572</ID>
+			<Key>ContractLineID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467574</ID>
+			<Key>MaterialNumber</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467576</ID>
+			<Key>NarvarCategory</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467578</ID>
+			<Key>StrikeThroughValue</Key>
+			<Value>2.65</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467580</ID>
+			<Key>DisplayValue</Key>
+			<Value>1.86</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467582</ID>
+			<Key>BundleParent</Key>
+			<Value>true</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467584</ID>
+			<Key>candleProductType</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467586</ID>
+			<Key>candleProductSubtype</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467588</ID>
+			<Key>GroupID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467591</ID>
+			<Key>LineItemID</Key>
+			<Value>3</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467593</ID>
+			<Key>itemGiftMessage1</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467595</ID>
+			<Key>itemGiftMessage2</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467597</ID>
+			<Key>itemGiftMessage3</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467599</ID>
+			<Key>TrueFitRecommendedSize</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467600</ID>
+			<Key>PackingSlipMessage</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467602</ID>
+			<Key>fromStore</Key>
+			<Value>false</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Returnable>true</Returnable>
+		<CancelReason />
+		<CancelReasonAdditionalText />
+		<OrderItemAdjustmentDetails>
+			<AdjustmentType>AdvancedCapture</AdjustmentType>
+			<NetPrice>1.55</NetPrice>
+			<GrossPrice>1.86</GrossPrice>
+			<PromotionID />
+			<CampaignID />
+			<DiscountText />
+			<CouponCode />
+			<PaymentTransactions>
+				<ID>16117734</ID>
+				<OrderID>0</OrderID>
+				<OrderItemAdjustmentID>97565362</OrderItemAdjustmentID>
+				<PaymentTransactionID>7452254</PaymentTransactionID>
+				<Amount>1.86</Amount>
+				<OrderPaymentID>3725852</OrderPaymentID>
+				<DateCreated>2022-05-23T14:30:11.91</DateCreated>
+				<PaymentError>false</PaymentError>
+				<PaymentPending>false</PaymentPending>
+			</PaymentTransactions>
+			<Taxes>
+				<ID>16485099</ID>
+				<OrderItemAdjustmentID>97565362</OrderItemAdjustmentID>
+				<TaxType>3</TaxType>
+				<Amount>0.31</Amount>
+			</Taxes>
+			<AdjustmentClassificationID>0</AdjustmentClassificationID>
+			<AdjustmentClassificationText></AdjustmentClassificationText>
+			<AdjustmentDate>2022-05-23T14:30:11.903</AdjustmentDate>
+			<OrderTransactionIdentifier>7</OrderTransactionIdentifier>
+			<OrderItemID>79847552</OrderItemID>
+			<AdjustmentMultiplier>1</AdjustmentMultiplier>
+		</OrderItemAdjustmentDetails>
+	</ItemDetails>
+	<ItemDetails>
+		<SfmcGlobalVersion>5</SfmcGlobalVersion>
+		<ProductImage>https://s7d9.scene7.com/is/image/YankeeCandle/1676075E_GB?wid=1000&amp;hei=1000</ProductImage>
+		<StyleNumber>Fleur de cerisier</StyleNumber>
+		<Attribute>Pink</Attribute>
+		<ProductSize></ProductSize>
+		<Quantity>1</Quantity>
+		<Custom1>5038581109183</Custom1>
+		<Custom2>Yankee Candle</Custom2>
+		<Custom3>Fondant de cire</Custom3>
+		<Custom4></Custom4>
+		<Custom5 />
+		<GiftCardPin />
+		<GrossPrice>1,86 €</GrossPrice>
+		<NetPrice>1,86 €</NetPrice>
+		<MSRP>0,00 €</MSRP>
+		<AlternateStyle></AlternateStyle>
+		<GTIN>5038581109183</GTIN>
+		<GiftCardNumber />
+		<GiftMessage />
+		<GiftCardToName />
+		<ReturnReason></ReturnReason>
+		<HasAlternateStyle />
+		<EstimatedShipDate></EstimatedShipDate>
+		<GiftCardFromName />
+		<GrossPriceWithQuantity>1,86 €</GrossPriceWithQuantity>
+		<ItemStatus>Shipped</ItemStatus>
+		<AlternateStyleUrl />
+		<ReturnAuthNumber></ReturnAuthNumber>
+		<ShippingMethod>UPS Standard</ShippingMethod>
+		<MsrpString></MsrpString>
+		<ShippingMethodDescription></ShippingMethodDescription>
+		<EstimatedShippingDateInterval></EstimatedShippingDateInterval>
+		<TrackingNumber>1Z59141W6801071055</TrackingNumber>
+		<TrackingUrl>https://wwwapps.ups.com/WebTracking/track?trackNums=1Z59141W6801071055&amp;track.x=Track</TrackingUrl>
+		<CarrierName>UPS</CarrierName>
+		<DeckSku>ORCL_1676075E</DeckSku>
+		<ItemDiscount />
+		<IsStorePickup>false</IsStorePickup>
+		<IsPreBackOrder>false</IsPreBackOrder>
+		<WarehouseLocation>HomeFragrance CZ</WarehouseLocation>
+		<WarehouseCode>YCZ</WarehouseCode>
+		<MarketingText></MarketingText>
+		<MarketingPrice>1,55 €</MarketingPrice>
+		<Extended>
+			<ID>366467607</ID>
+			<Key>Size Scale</Key>
+			<Value>US</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467609</ID>
+			<Key>Size</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467611</ID>
+			<Key>ContractID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467613</ID>
+			<Key>ContractLineID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467614</ID>
+			<Key>MaterialNumber</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467616</ID>
+			<Key>NarvarCategory</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467618</ID>
+			<Key>StrikeThroughValue</Key>
+			<Value>2.65</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467620</ID>
+			<Key>DisplayValue</Key>
+			<Value>1.86</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467622</ID>
+			<Key>BundleParent</Key>
+			<Value>true</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467625</ID>
+			<Key>candleProductType</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467626</ID>
+			<Key>candleProductSubtype</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467628</ID>
+			<Key>GroupID</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467629</ID>
+			<Key>LineItemID</Key>
+			<Value>4</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467630</ID>
+			<Key>itemGiftMessage1</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467631</ID>
+			<Key>itemGiftMessage2</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467632</ID>
+			<Key>itemGiftMessage3</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467633</ID>
+			<Key>TrueFitRecommendedSize</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467634</ID>
+			<Key>PackingSlipMessage</Key>
+			<Value></Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Extended>
+			<ID>366467635</ID>
+			<Key>fromStore</Key>
+			<Value>false</Value>
+			<Additional />
+			<ReadOnly>false</ReadOnly>
+		</Extended>
+		<Returnable>true</Returnable>
+		<CancelReason />
+		<CancelReasonAdditionalText />
+		<OrderItemAdjustmentDetails>
+			<AdjustmentType>AdvancedCapture</AdjustmentType>
+			<NetPrice>1.55</NetPrice>
+			<GrossPrice>1.86</GrossPrice>
+			<PromotionID />
+			<CampaignID />
+			<DiscountText />
+			<CouponCode />
+			<PaymentTransactions>
+				<ID>16117736</ID>
+				<OrderID>0</OrderID>
+				<OrderItemAdjustmentID>97565364</OrderItemAdjustmentID>
+				<PaymentTransactionID>7452254</PaymentTransactionID>
+				<Amount>1.86</Amount>
+				<OrderPaymentID>3725852</OrderPaymentID>
+				<DateCreated>2022-05-23T14:30:11.92</DateCreated>
+				<PaymentError>false</PaymentError>
+				<PaymentPending>false</PaymentPending>
+			</PaymentTransactions>
+			<Taxes>
+				<ID>16485101</ID>
+				<OrderItemAdjustmentID>97565364</OrderItemAdjustmentID>
+				<TaxType>3</TaxType>
+				<Amount>0.31</Amount>
+			</Taxes>
+			<AdjustmentClassificationID>0</AdjustmentClassificationID>
+			<AdjustmentClassificationText></AdjustmentClassificationText>
+			<AdjustmentDate>2022-05-23T14:30:11.913</AdjustmentDate>
+			<OrderTransactionIdentifier>8</OrderTransactionIdentifier>
+			<OrderItemID>79847553</OrderItemID>
+			<AdjustmentMultiplier>1</AdjustmentMultiplier>
+		</OrderItemAdjustmentDetails>
+	</ItemDetails>
+	<couponFormattedAmount></couponFormattedAmount>
+	<giftFormattedAmount></giftFormattedAmount>
+	<DetailedItemTaxes>
+		<TaxName>VAT</TaxName>
+		<TaxAmount>1.9400</TaxAmount>
+		<TaxRate>0,0 %</TaxRate>
+	</DetailedItemTaxes>
+	<issuedCouponStrings />
+	<issuedCouponStrings>lundi 1 janvier 0001</issuedCouponStrings>
+	<RecipientName />
+	<GiftCardUrl></GiftCardUrl>
+	<GiftCardNumber></GiftCardNumber>
+	<GiftCardPin />
+	<GiftMessage></GiftMessage>
+	<GiftCardType></GiftCardType>
+	<GiftCardFormattedAmount></GiftCardFormattedAmount>
+	<GiftCardSenderEmail></GiftCardSenderEmail>
+	<GiftCardSenderName></GiftCardSenderName>
+	<SF_xcloud_ID></SF_xcloud_ID>
+	<SF_Contact_ID>0036S00005l6M5IQAU</SF_Contact_ID>
+</Root>

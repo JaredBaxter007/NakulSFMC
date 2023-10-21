@@ -1,0 +1,284 @@
+Step1:
+------
+
+select
+ca.contact_id,
+ca.birth_date, 
+h.last_open_date, 
+h.last_click_date, 
+h.last_send_date,
+s.opt_in_date, 
+ca.mailing_state, 
+ca.mailing_country, 
+ca.mailing_city, 
+ca.mailing_zip, 
+ca.phone,
+h.terracycle_new_status as adhoc_terracycle_new_status, 
+h.autoship_active as adhoc_autoshipactive, 
+h.opted_out, 
+h.cd_preference, 
+h.cd_visits, 
+h.closest_outlet_citystate, 
+h.closest_outlet_dist, 
+h.closest_outlet_name, 
+h.closest_outlet_num, 
+h.closest_store_citystate, 
+h.closest_store_name, 
+h.closest_store_num, 
+h.ret_sales, 
+h.cd_lastdate, 
+h.ret_lastdate, 
+h.cd_sales, 
+h.ret_visits, 
+h.recom_store_no, 
+h.closing_store_no,
+ 
+CASE WHEN cp.answer_id = 'a228' THEN '1' ELSE '0' END AS channel_email, 
+CASE WHEN cp.answer_id = 'a229' THEN '1' ELSE '0' END AS channel_SMS,
+CASE WHEN cp.answer_id = 'a225' THEN '1' ELSE '0' END AS brand_yankee_candle, 
+CASE WHEN cp.answer_id = 'a226' THEN '1' ELSE '0' END AS brand_woodwick, 
+CASE WHEN cp.answer_id = 'a227' THEN '1' ELSE '0' END AS brand_yankee_chesapeake_bay_candle, 
+CASE WHEN cp.answer_id = 'a230' THEN '1' ELSE '0' END AS frequency_unlimited,
+CASE WHEN cp.answer_id = 'a232' THEN '1' ELSE '0' END AS frequency_twopermonth, 
+CASE WHEN cp.answer_id = 'a233' THEN '1' ELSE '0' END AS frequency_onepermonth,
+CASE WHEN cp.answer_id = 'a231' THEN '1' ELSE '0' END AS frequency_twoperweek
+
+from ENT.Contact_Attributes ca
+inner join Subscription s on ca.contact_id = s.contact_id
+left join Historical_Summarized h on ca.contact_id = h.contact_id
+left join Contact_Preferences cp on ca.contact_id = cp.contact_id
+where
+s.subscription_status = 'subscribed'
+AND
+(((datediff(day, last_open_date, getdate()) <= 547)))
+
+
+Target Data Extension
+Data Extension	YCC_US_Sendable_Audience_Intermediate_918Reactivation_Segment
+
+2.1
+---
+select
+ca.contact_id,
+ca.birth_date, 
+Y.last_open_date, 
+Y.last_click_date, 
+Y.last_send_date,
+s.opt_in_date, 
+ca.mailing_state, 
+ca.mailing_country, 
+ca.mailing_city, 
+ca.mailing_zip, 
+ca.phone,
+h.terracycle_new_status as adhoc_terracycle_new_status, 
+h.autoship_active as adhoc_autoshipactive, 
+h.opted_out, 
+h.cd_preference, 
+h.cd_visits, 
+h.closest_outlet_citystate, 
+h.closest_outlet_dist, 
+h.closest_outlet_name, 
+h.closest_outlet_num, 
+h.closest_store_citystate, 
+h.closest_store_name, 
+h.closest_store_num, 
+h.ret_sales, 
+h.cd_lastdate, 
+h.ret_lastdate, 
+h.cd_sales, 
+h.ret_visits, 
+h.recom_store_no, 
+h.closing_store_no,
+ 
+CASE WHEN cp.answer_id = 'a228' THEN '1' ELSE '0' END AS channel_email, 
+CASE WHEN cp.answer_id = 'a229' THEN '1' ELSE '0' END AS channel_SMS,
+CASE WHEN cp.answer_id = 'a225' THEN '1' ELSE '0' END AS brand_yankee_candle, 
+CASE WHEN cp.answer_id = 'a226' THEN '1' ELSE '0' END AS brand_woodwick, 
+CASE WHEN cp.answer_id = 'a227' THEN '1' ELSE '0' END AS brand_yankee_chesapeake_bay_candle, 
+CASE WHEN cp.answer_id = 'a230' THEN '1' ELSE '0' END AS frequency_unlimited,
+CASE WHEN cp.answer_id = 'a232' THEN '1' ELSE '0' END AS frequency_twopermonth, 
+CASE WHEN cp.answer_id = 'a233' THEN '1' ELSE '0' END AS frequency_onepermonth,
+CASE WHEN cp.answer_id = 'a231' THEN '1' ELSE '0' END AS frequency_twoperweek
+
+from ENT.Contact_Attributes ca
+inner join Subscription s on ca.contact_id = s.contact_id
+left join Historical_Summarized h on ca.contact_id = h.contact_id
+left join Contact_Preferences cp on ca.contact_id = cp.contact_id
+inner join YCC_US_Aggregate_Open_Click_Sent Y on Y.contact_id = ca.contact_id
+where
+s.subscription_status = 'subscribed'
+AND
+(((datediff(day, Y.last_open_date, getdate()) <= 547)))
+
+
+
+Target Data Extension
+Data Extension	YCC_US_Sendable_Audience_Intermediate_918Reactivation_Segment
+Data Action	Append
+
+
+3.1
+---
+
+Select
+Y.contact_id,
+co.first_name,
+co.last_name,
+co.email_address,
+Y.phone,
+CASE WHEN Datepart(year, birth_date)= '1900' THEN NULL ELSE birth_date END AS birth_date,
+MAX(Y.last_open_date) as last_open_date,
+MAX(Y.last_click_date) as last_click_date, 
+MAX(Y.last_send_date) as last_send_date, 
+Y.opt_in_date, 
+Y.mailing_state,
+Y.mailing_country,
+Y.mailing_city,
+Y.mailing_zip, 
+Y.adhoc_terracycle_new_status, 
+Y.adhoc_autoshipactive, 
+Y.opted_out, 
+Y.cd_preference,
+Y.cd_visits, 
+Y.closest_outlet_citystate, 
+Y.closest_outlet_dist, 
+Y.closest_outlet_name, 
+Y.closest_outlet_num,
+Y.closest_store_citystate, 
+Y.closest_store_name, 
+Y.closest_store_num, 
+Y.ret_sales, 
+Y.cd_lastdate, 
+Y.ret_lastdate, 
+Y.cd_sales, 
+Y.ret_visits, 
+Y.recom_store_no, 
+Y.closing_store_no,
+
+CASE WHEN SUM(Y.frequency_twoperweek)>0 THEN 'TRUE' ELSE 'FALSE' END AS frequency_twoperweek, 
+CASE WHEN SUM(Y.frequency_twopermonth)>0 THEN 'TRUE' ELSE 'FALSE' END AS frequency_twopermonth, 
+CASE WHEN SUM(Y.frequency_onepermonth)>0 THEN 'TRUE' ELSE 'FALSE' END AS frequency_onepermonth, 
+CASE WHEN SUM(Y.frequency_unlimited)>0 THEN 'TRUE' ELSE 'FALSE' END AS frequency_unlimited, 
+CASE WHEN SUM(Y.channel_email)>0 THEN 'TRUE' ELSE 'FALSE' END AS channel_email, 
+CASE WHEN SUM(Y.channel_SMS)>0 THEN 'TRUE' ELSE 'FALSE' END AS channel_SMS, 
+CASE WHEN SUM(Y.brand_yankee_candle)>0 THEN 'TRUE' ELSE 'FALSE' END AS brand_yankee_candle, 
+CASE WHEN SUM(Y.brand_woodwick)>0 THEN 'TRUE' ELSE 'FALSE' END AS brand_woodwick, 
+CASE WHEN SUM(Y.brand_yankee_chesapeake_bay_candle)>0 THEN 'TRUE' ELSE 'FALSE' END AS brand_yankee_chesapeake_bay_candle
+
+from YCC_US_Sendable_Audience_Intermediate_918Reactivation_Segment Y
+inner join ENT.contacts co on co.contact_id = Y.contact_id
+where co.email_address not in (select email_address from YCC_US_Suppression_List)
+
+GROUP BY
+Y.contact_id,
+co.first_name,
+co.last_name,
+co.email_address,
+Y.phone,
+Y.birth_date, 
+Y.opt_in_date, 
+Y.mailing_state,
+Y.mailing_country,
+Y.mailing_city,
+Y.mailing_zip, 
+Y.adhoc_terracycle_new_status, 
+Y.adhoc_autoshipactive, 
+Y.opted_out, 
+Y.cd_preference,
+Y.cd_visits, 
+Y.closest_outlet_citystate, 
+Y.closest_outlet_dist, 
+Y.closest_outlet_name, 
+Y.closest_outlet_num,
+Y.closest_store_citystate, 
+Y.closest_store_name, 
+Y.closest_store_num, 
+Y.ret_sales, 
+Y.cd_lastdate, 
+Y.ret_lastdate, 
+Y.cd_sales, 
+Y.ret_visits, 
+Y.recom_store_no, 
+Y.closing_store_no,
+Y.frequency_twoperweek, 
+Y.frequency_twopermonth, 
+Y.frequency_onepermonth, 
+Y.frequency_unlimited, 
+Y.channel_email, 
+Y.channel_SMS, 
+Y.brand_yankee_candle, 
+Y.brand_woodwick, 
+Y.brand_yankee_chesapeake_bay_candle
+HAVING
+(((datediff(day, MAX(Y.last_open_date), getdate()) <= 547)))
+AND
+(((datediff(day, MAX(Y.last_open_date), getdate()) >= 243)))
+
+
+Target Data Extension
+Data Extension	YCC_US_Sendable_Audience_918Reactivation_Segment
+Data Action	 Overwrite
+
+4.1:
+----
+
+Select 
+Y.contact_id,
+Y.email_address,
+C1.ID as crowdtwist_id,
+C1.email_is_verified, 
+C1.total_points, 
+C1.redeemable_points, 
+C1.date_created, 
+C1.signup_type, 
+C1.is_active, 
+C1.weekly_points, 
+C1.monthly_points, 
+C1.fan_level_name, 
+C1.current_tier_level, 
+C1.next_tier_level, 
+C1.date_tier_assigned, 
+C1.tier_expiration_date, 
+C1.tier_reset_date, 
+C1.score_needed_to_next_tier, 
+C1.score_needed_to_maintain_tier, 
+C1.days_until_tier_expiration, 
+C1.days_until_tier_reset, 
+C1.date_reached,
+C1.total_points_redeemed
+From
+(
+Select
+U.ID,
+U.email_address,
+U.email_is_verified, 
+U.total_points, 
+U.redeemable_points, 
+U.date_created, 
+U.sign_up_type as signup_type, 
+U.is_active, 
+U.weekly_points, 
+U.monthly_points, 
+U.fan_level_name, 
+U.current_tier_level, 
+U.next_tier_level, 
+U.date_tier_assigned, 
+U.tier_expiration_date, 
+U.tier_reset_date, 
+U.score_needed_to_next_tier, 
+U.score_needed_to_maintain_tier, 
+U.days_until_tier_expiration, 
+U.days_until_tier_reset, 
+U.date_reached,
+R.user_id,
+R.total_points_redeemed,
+ROW_NUMBER() OVER(PARTITION BY U.ID ORDER BY R.order_date DESC) AS rn
+From user_profile U
+left join user_redemption R on R.USER_ID = U.ID) C1
+inner join YCC_US_Sendable_Audience_918Reactivation_Segment Y on Y.email_address = C1.email_address
+where rn=1
+
+
+Target Data Extension
+Data Extension	YCC_US_Sendable_Audience_918Reactivation_Segment
+Data Action	Update

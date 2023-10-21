@@ -1,0 +1,8 @@
+select 
+toc.TotalOpens as TotalOpen,
+toc.TotalClicks as TotalClicks,
+ce.EmailName,
+ce.EmailSubject
+from [Campaigns_EmailDashboard] ce join
+[TotalOpensAndClicks_CampaignSends] toc on 
+ce.EmailName=toc.EmailName

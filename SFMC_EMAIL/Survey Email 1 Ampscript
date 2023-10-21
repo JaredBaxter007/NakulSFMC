@@ -1,0 +1,91 @@
+%%[
+Var @subject,@preheader
+
+
+SET @Subject='مشاركتك برأيك تؤهلك للحصول على هدية مضمونة!'
+SET @preheader="
+شارك برايك فى استبيان قصير و اربح هدية مضمونة
+هل تود مهاداه اصحابك و احبابك بمقرمشات و رقائق  كهدية؟
+رأيك يهمنا
+"
+
+]%%
+<center>
+<table align="center" border="0" cellpadding="0" cellspacing="0">
+
+  <tr>
+   <td align="center">
+    <p style="color: black; width:680px; font-family:Arial Black,Gadget,sans-serif; font-size: 50px; font-weight: 900; margin-left: 40px;line-height:1.3">
+     <span style="font-size:46px;"><span style="font-family:Arial Black,Gadget,sans-serif;"><b> رأيك يهمنا </b></span></span></p><p style="color: black;width:680px; font-family:Arial Black,Gadget,sans-serif; font-size: 10; font-weight: 900;line-height:1.8;">
+     <span style="font-size:20px;"><b>&nbsp;&nbsp; <span style="font-family:Calibri,Candara,Segoe,&quot;Segoe UI&quot;,Optima,Arial,sans-serif;">هل تود مهاداه اصحابك و احبابك بمقرمشات و رقائق  كهدية؟
+<br>&nbsp;&nbsp;
+شارك برايك فى استبيان قصير و اربح هدية مضمونة
+ </span></b></span></p><br>
+    <br>
+    &nbsp;</td></tr>
+
+
+</table></center>
+---------------------------------------------------------------------------------------------------------------
+%%[
+Var @url,@UID,@em,@is_Email_Sent,@Sent_Time
+set @UID = AttributeValue("UID")
+set @em = AttributeValue("EmailAddress")
+set @Sent_Time = now()
+set @is_Email_Sent = "True"
+SET @url=Concat("https://pepsico.jebbit.com/rhktwizz?L=Email&uid=",@UID)
+
+
+InsertDE("KSA_Jebbit_Takis_Survey_EDM_Log","UID",@UID,"EmailAddress",@em,"is_Email_Sent",@is_Email_Sent,"Sent_Time",@Sent_Time)
+]%%
+<center>
+<table width="680px" cellspacing="0" cellpadding="0" role="presentation">
+
+    <tr><td align="center">
+  <a href="%%=RedirectTo(@url)=%%" title="" alias="" conversion="false" data-linkto="http://"><img data-assetid="171737" src="https://image.s50.sfmc-content.com/lib/fe33117175640478721579/m/1/b3365704-f358-44f2-b3b6-90117ad7a58d.png" alt="Take Survey" height="84" width="370" style="display: block; padding: 0px; text-align: center; height: 70px; width: 290px; border: 0px;"></a></td></tr>
+   
+</table>
+</center>
+-------------------------------------------------------------------------------------------------------------------
+<table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="background-color: #FFC900"> <tr><td align="center"><img data-assetid="137102" src="https://image.s50.sfmc-content.com/lib/fe33117175640478721579/m/1/433b204f-1f33-4a83-8b8b-b0a9574ef51e.png" alt="" width="680" style="display: block; padding: 0px; text-align: center; height: auto; width: 100%; border: 0px;"></td></tr>
+
+
+  <tr>
+   <td align="center" style="font-size:12px;
+font-family:Calibri,Candara,Segoe,&quot;Segoe UI&quot;,Optima,Arial,sans-serif;padding:00px 15px 00px 15px">
+    <div style="text-align: justify; line-height: 100%;">
+      <span style="text-decoration:none;color: black;">
+        
+شارك برأيك فى الاستبيان لربح قسيمة هدية من شركاؤنا بقيمة 30 ريال سعودى. يمكنك ملأ الاستبيان من الآن و حتى يوم  ٢٥ أغسطس 2023. هذا الاسيبتان متاح فقط للفئة العمريه لمن هم اكبر من 18 سنة فى ما فوق. سيتم ارسال تفاصيل استخدام القسيمة من ليز ارابيا على عنوان بريدك الالكترونى حيث ان يمكن للمشترك الواحد استكمال الاستبيان على الرابط لمرة واحدة فقط خلال المدة المحددة. القسائم المهداه تكون موزعة تحت اشراف شركائنا من شركة TLC و بالتالى يمكن الرجوع للشركة فى حالة اى مساعدة او مشكلة فى القسائم على البريد الالكترونى
+<br>pepsicosurvey@tlcrewards.com <br>
+<br>
+
+لقد تم ارسال هذة الرسالة على عنوان بريدك الاكترونى
+<br> %%emailaddr%%  <br> 
+و ذلك لموافقتك السابقة على ارسال مواد تسويقية و دعائية من ليز. لالغاء الاشتراك فى هذة الخدمة فى اى وقت، يرجى الضغط على الرابط الموضح فى الادنى 
+
+      </span></div></td></tr>
+
+  <tr>
+   <td align="center" style="background-color: #FFC900; font-family:Arial Black,Gadget,sans-serif;color: black">
+    <div style="line-height: 150%;">
+
+     <span style="font-size:12px;
+font-family:Calibri,Candara,Segoe,&quot;Segoe UI&quot;,Optima,Arial,sans-serif; ">  
+            <br>
+       <a href="%%view_email_url%%" style=" text-decoration:none;color: black;">
+     عرض في المتصفح  </a>
+       | <a href="https://mc09k--cgr23hr8f62rxy88m7y7y.pub.sfmc-content.com/0klogels4yv" style=" text-decoration:none;color: black;">  اتصل بنا</a>
+       | <a href="https://platformassets.wspprod.com/pepsiredemptionpolicy-static/privacypolicy-eng.html" style=" text-decoration:none;color: black;"> سياسة الخصوصية </a>
+        | <a alias="Unsubscribe" href="%%unsub_center_url%%" style=" text-decoration:none;color: black;"> إلغاء الاشتراك </a>
+       | <a alias="Manage Subscriptions" href="%%subscription_center_url%%" style=" text-decoration:none; color: black;"> التحكم فى الاشتراك </a>
+      </span></div><div style="line-height: 100%;">
+     <span style="font-size:12px;
+font-family:Calibri,Candara,Segoe,&quot;Segoe UI&quot;,Optima,Arial,sans-serif;text-decoration:none;color: black; ">&copy; 2022 Pepsico, Al Nakhlah Tower 3026 Mohammed Ibn Salman Ibn Abdulaziz Rd As Shahfah, Riyadh 13315.<br>
+     Kingdom of Saudi Arabia Phone: 0572234386</span></div><div style="line-height: 150%;">
+     <span style="font-size:12px;
+font-family:Calibri,Candara,Segoe,&quot;Segoe UI&quot;,Optima,Arial,sans-serif; text-decoration:none;color: black;"> كل العلامات التجارية و الشعارات المستخدمة تعتبر ملكية لاصحابها</span></div>&nbsp;</td></tr>
+ 
+
+</table>
+<table cellpadding="2" cellspacing="0" width="600" id="Table5" border="0"><tr><td><font face="verdana" size="1" color="white">This email was sent by: <b>%%Member_Busname%%</b><br>%%Member_Addr%% %%Member_City%%, %%Member_State%%, %%Member_PostalCode%%, %%Member_Country%% %%profile_center_url%% <br><br></font></td></tr></table>

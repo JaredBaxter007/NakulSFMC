@@ -1,0 +1,79 @@
+%%[
+var @rows, @row, @rowCount, @Rank, @i
+var @today,@dateFormat
+
+
+set @Rank = AttributeValue("Rank") 
+set @Rank = "1" 
+set @rows = LookupRows("KSA_LoyaltyApp_DataExtensions_QA_UID","Rank", @Rank)
+set @rowCount = rowcount(@rows)
+
+OutputLine(concat("Rank: ", @Rank))
+OutputLine(concat("rowCount: ", @rowCount))
+
+
+var @deleteCount, @lookupValue, @del
+
+if @rowCount > 0 then
+
+for @i = 1 to @rowCount do
+
+    var @DEName, @CEPUpdateDate, @rank
+    set @row = row(@rows, @i) 
+    set @DEName = field(@row,"DEName")
+    set @DEExternalKey = field(@row,"DEExternalKey") 
+    
+    OutputLine(concat("DEName: ", @DEName))
+OutputLine(concat("DEExternalKey: ", @DEExternalKey))
+
+var @rowsDel, @rowDel, @rowDelCount, @ToBeDeleted, @j
+var @today,@dateFormat
+set @today = Now(1)
+set @dateFormat  = FormatDate(@today,"s")
+
+set @ToBeDeleted = AttributeValue("ToBeDeleted") 
+set @ToBeDeleted = "Y" 
+set @rowsDel = LookupRows("KSA_LoyaltyApp_ContactDeleteRequest_QA_UID","ToBeDeleted", @ToBeDeleted)
+set @rowDelCount = rowcount(@rowsDel)
+
+OutputLine(concat("rowDelCount: ", @rowDelCount))
+
+var @deleteCount, @lookupValue
+
+if @rowDelCount > 0 then
+
+for @j = 1 to @rowDelCount do
+
+    var @UID, @CEPUpdateDate, @rank
+    set @rowDel = row(@rowsDel, @j) 
+    set @UID = field(@rowDel,"UID")
+    set @CEPUpdateDate = field(@rowDel,"CEPUpdateDate")
+    
+    OutputLine(concat("UID: ", @UID))
+    
+set @deleteCountWelcome = DeleteData(@DEName,"UID", @UID)
+
+]%%
+ <br>Row %%=v(@j)=%%, deleteCountWelcome: %%=v(@deleteCountWelcome)=%%, CEPUpdateDate: %%=v(@CEPUpdateDate)=%%
+%%[
+
+  next @j ]%%
+
+%%[ else ]%%
+
+No rows found
+
+%%[ endif ]%%
+
+
+%%[ next @i ]%%
+<br>
+
+%%[ else ]%%
+
+No rows found
+
+%%[ endif ]%%
+
+
+]%%

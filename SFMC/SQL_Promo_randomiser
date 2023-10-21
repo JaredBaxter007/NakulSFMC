@@ -1,0 +1,31 @@
+select
+sub.Name,
+sub.mobilenumber,
+sub.SFMC_InsertDate,
+sub.SourceID,
+sub.EmailAddress,
+sub.Address,
+sub.[EmailOpt-in]
+from
+(Select 
+Name,
+mobilenumber,
+SFMC_InsertDate,
+SourceID,
+EmailAddress,
+Address,
+[EmailOpt-in],
+ROW_NUMBER() OVER
+				(
+					PARTITION BY mobilenumber
+					ORDER BY
+						SFMC_InsertDate DESC
+				) as ranking	
+from [PAK_Pepsi_Promo_2023_FormInputs] 
+where SourceID ='Beverages_Pepsi_01092023_3M_PAKPepsiPromo2023_Social_S'
+AND ( DATEDIFF(D, DateAdd(hh,10,SFMC_InsertDate), DateAdd(day,-1,(DateAdd(hh,10,GETDATE())))) >= 0
+AND DATEDIFF(D, DateAdd(hh,10,SFMC_InsertDate), DateAdd(day,-1,(DateAdd(hh,10,GETDATE())))) < 14 )
+/*AND DATEDIFF(D, DateAdd(hh,10,SFMC_InsertDate), (DateAdd(hh,10,GETDATE())) ) = 0*/
+AND mobilenumber NOT IN (Select mobilenumber from [PepsiPromo_Randomiser_Winners_Historical] )
+) sub
+where sub.ranking	 = 1

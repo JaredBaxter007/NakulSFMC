@@ -1,0 +1,29 @@
+select sub.CustomObjectKey, sub.EmailAddress, sub.MobileNumber, sub.MAID, sub.MatchOn
+from (
+    select s._customObjectKey as CustomObjectKey, s.EmailAddress,s.MobileNumber,s.MAID, 'EmailAddress' as MatchOn
+     , row_number() over (partition by s.emailAddress order by s.LastUpdateDate desc, s._customObjectKey desc) as ranking
+    from [PAK_Profile_Staging] s
+    where isnull(s.EmailAddress,'') <> ''
+
+    union all
+
+    select s._customObjectKey as CustomObjectKey, s.EmailAddress,s.MobileNumber,s.MAID, 'MobileNumber' as MatchOn
+     , row_number() over (partition by s.MobileNumber order by s.LastUpdateDate desc, s._customObjectKey desc) as ranking
+    from [PAK_Profile_Staging] s
+    where isnull(s.MobileNumber,'') <> ''
+
+    union all
+
+    select s._customObjectKey as CustomObjectKey, s.EmailAddress,s.MobileNumber,s.MAID, 'MAID' as MatchOn
+     , row_number() over (partition by s.MAID order by s.LastUpdateDate desc, s._customObjectKey desc) as ranking
+    from [PAK_Profile_Staging] s
+    where isnull(s.MAID,'') <> ''
+) sub
+where sub.ranking >= 2
+/* ---------------------------------------------------
+Name: PAK_Profile_Staging_exclude
+Type: Overwrite
+Target: PAK_Profile_Staging_exclude
+Description: Records identified as duplicates.
+Exclude these from the PAK_Profile_to_Staging queries
+----------------------------------------------------- */

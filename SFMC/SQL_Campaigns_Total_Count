@@ -1,0 +1,35 @@
+SELECT 
+EmailName,
+'KSA' as Rank,
+max(EventDate) as EventDate,
+SUM(Sends) as TotalSend,
+SUM(Opens) AS UniqueOpens,
+SUM(Clicks) AS UniqueClicks,
+SUM(Bounce) AS Bounced,
+SUM(SoftBounce) AS SoftBounce,
+SUM(HardBounce) AS HardBounce,
+SUM(BlockBounce) AS BlockBounce,
+SUM(Unsubscribe) AS Unsubscribed,
+(SUM(Sends) - SUM(Bounce)) AS TotalDelivered,
+(CAST(SUM(Opens) AS DECIMAL(18,2)) / (CAST(SUM(Sends) AS DECIMAL(18,2)) - CAST(SUM(Bounce) AS DECIMAL(18,2)) ) *100 ) AS 'OpenRate',
+(CAST(SUM(Clicks) AS DECIMAL(18,2)) / (CAST(SUM(Sends) AS DECIMAL(18,2)) - CAST(SUM(Bounce) AS DECIMAL(18,2)) ) *100 ) AS 'ClickRate',
+(CAST(SUM(Unsubscribe) AS DECIMAL(18,2)) / (CAST(SUM(Sends) AS DECIMAL(18,2)) - CAST(SUM(Bounce) AS DECIMAL(18,2)) ) *100 ) AS 'UnsubscribedRate'
+from [CampaignEmailSends]
+
+
+where EmailName!='%PCAMESA_Campaign_Report_Daily%'
+AND EmailName not like '%User To be disabled-60Days%'
+AND EmailName not like '%User To be disabled in 2 days%'
+AND EmailName not like '%User To be disabled-60Days%'
+AND EmailName not like '%RMM_Default_CustomResponse%'
+AND EmailName not like '%Test%'
+
+ /* BU specific EmailNames 
+AND j.EmailName like '%KSA'
+AND j.EmailName like '%SA'
+AND j.EmailName like '%PAK' 
+--EmailSubject,
+--,EmailSubject */
+
+group by EmailName
+

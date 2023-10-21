@@ -1,0 +1,22 @@
+SELECT j.EmailName, j.EmailSubject, s.JobId,  s.Sends, o.bounce
+FROM (
+    SELECT JobId, Count(*) as Sends
+    FROM _Sent
+    GROUP BY JobId
+) s
+inner join(
+    SELECT JobId, EmailName, EmailSubject
+    FROM _Job
+    WHERE Category NOT IN ('Test Emails', 'Test Send Emails')
+    AND EmailName  like '%KSA_Jebbit_Lays_Screen_Time_Survey_EDM%'
+    
+    GROUP BY JobId, EmailName, EmailSubject
+) j
+on j.JobID=s.JobID
+LEFT JOIN (
+    SELECT JobId, Count(*) as bounce
+    FROM _bounce
+    where IsUnique = 1
+    GROUP BY JobId
+) o
+ON o.JobId = s.JobId

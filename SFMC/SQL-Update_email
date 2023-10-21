@@ -1,0 +1,85 @@
+SELECT
+	sub.ConsumerUID, /* -- PK -- */
+	sub.FirstName,
+	sub.LastName,
+	sub.EmailAddress,
+	sub.MobileNumber,
+	sub.MAID,
+	sub.LanguagePreference,
+	sub.Country,
+	sub.MegaPrize,
+	sub.CurrentPoints,
+	sub.City,
+	sub.LastActivity_UpdateDate,
+	sub.SourceID,
+	sub.LastUpdateDate,
+	sub.[EmailOpt-in],
+	sub.[SMSOpt-in],
+	sub.[WhatsAppOpt-in],
+	sub.AccountRegistrationDate,
+	sub.LastSeenDate,
+	sub.SFMC_UpdateDate,
+	sub.Age,
+	sub.Gender
+
+	FROM
+		(
+			SELECT target.ConsumerUID, /* -- PK -- */
+			ISNULL(source.EmailAddress, target.EmailAddress)						AS EmailAddress,
+			ISNULL(source.MobileNumber, target.MobileNumber)						AS MobileNumber,
+			ISNULL(source.MAID, target.MAID)										AS MAID,
+			ISNULL(source.FirstName, target.FirstName)								AS FirstName,
+			ISNULL(source.LastName, target.LastName)								AS LastName,
+			ISNULL(source.LanguagePreference, target.LanguagePreference)			AS LanguagePreference,
+			ISNULL(source.Country, target.Country)									AS Country,
+			ISNULL(source.MegaPrize, target.MegaPrize)								AS MegaPrize,
+			ISNULL(source.Age, target.Age)											AS Age,
+			ISNULL(source.Gender, target.Gender)									AS Gender,
+			ISNULL(source.CurrentPoints, target.CurrentPoints)						AS CurrentPoints,
+			ISNULL(source.City, target.City)										AS City,
+			ISNULL(source.SourceID, target.SourceID)								AS SourceID,
+			ISNULL(target.AccountRegistrationDate, source.AccountRegistrationDate)	AS AccountRegistrationDate,
+			source.AccountRegistrationDate											AS LastSeenDate,
+			source.LastActivity_UpdateDate,
+			source.LastUpdateDate,
+			ISNULL(source.[EmailOpt-in], 0)											AS [EmailOpt-in],
+			ISNULL(source.[SMSOpt-in], 0)											AS [SMSOpt-in],
+			ISNULL(source.[WhatsAppOpt-in], 0)										AS [WhatsAppOpt-in],
+			GETDATE()																AS SFMC_UpdateDate,
+			ROW_NUMBER() OVER
+				(
+					PARTITION BY source.EmailAddress
+					ORDER BY
+						source.LastUpdateDate DESC,
+						source.LastActivity_UpdateDate DESC
+				) AS ranking
+			
+			FROM [PAK_Profile_Staging] source
+			
+			INNER JOIN [PAK_Profile] target ON
+				target.EmailAddress = source.EmailAddress AND
+				ISNULL(source.EmailAddress,'') <> ''
+			
+			INNER JOIN [PAK_Active_Campaigns] pac ON
+				source.SourceID = pac.SourceID AND
+				pac.active = 1
+			
+			LEFT JOIN [PAK_Profile_Staging_exclude] e ON
+				source._CustomObjectKey = e.CustomObjectKey
+			
+			WHERE
+				e.CustomObjectKey IS NULL
+		) sub /* -- match ON emailaddress WHERE SourceID is active -- */
+		WHERE sub.ranking = 1
+
+/* ------------------------------------------------------------------------
+Name: PAK_Staging_To_Profile_EmailAddress_Update_Alternate
+Type: Update
+Target: PAK_Profile
+Description: This query moves records from
+PAK_Pepsend_Profile_Staging DE and update records in Profile DE.
+Source data overwrite matching records in target.
+special rules apply for AccountRegistrationDate and null opt-ins.
+Records are match by a priority of EmailAddress, MobileNumber, MAID.
+This logic does have the small risk of resulting in some duplicate records.
+--------------------------------------------------------------------------- */

@@ -1,0 +1,41 @@
+SELECT 
+       Name AS FirstName,
+         case
+            when  len(MobileNumber) = 2 
+            then ''
+            else MobileNumber end as MobileNumber,
+        EmailAddress,
+        SourceID,
+        'Pakistan' as Country,
+        SFMC_InsertDate as AccountRegistrationDate,
+        SFMC_InsertDate as LastUpdateDate,
+        SFMC_InsertDate as LastActivity_UpdateDate,
+        SFMC_InsertDate as SFMC_InsertedDate,
+        [EmailOpt-in] as [EmailOpt-in],
+        'English' as LanguagePreference,
+        SMS_Optin AS [SMSOpt-in],
+        Whatsapp_Optin AS [WhatsAppOpt-in]
+        
+    FROM
+        [Pepsi_Promo_2023_FormInputs]
+         where DATEDIFF(hour,SFMC_InsertDate,GETDATE())<= 24
+        AND
+        (
+       len(MobileNumber) > 2 AND Mobilenumber NOT LIKE '%[^0-9]%'
+        OR (
+        EmailAddress is not null
+        AND
+        len(TRIM (REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(EmailAddress,
+                            CHAR(13),''),
+                        CHAR(12), ''),
+                    CHAR(11), ''),
+                CHAR(10),''),
+            CHAR(9),''),
+        CHAR(32),''))) <> 0
+        ))
+        

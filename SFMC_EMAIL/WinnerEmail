@@ -1,0 +1,271 @@
+%%[
+Var @mn,@couponCode
+set @mn= AttributeValue("MobileNumber")
+ set @couponRow = ClaimRow("KSA_Rockstar_Spotify_Vouchers_Dev","IsClaimed", "MobileNumber", @mn)
+ if not empty(@couponRow) then
+ set @couponCode = Field(@couponRow, "CouponCode")
+ else
+ RaiseError("No codes available", false)
+ 
+ endif
+]%%
+
+<style>
+         @font-face {
+         font-family: "Hacen_Saudi_Arabia";
+         src: url(fonts/Hacen_Saudi_Arabia.ttf) format("Truetype");
+         }
+         body,
+         table,
+         td,
+         a {
+         -webkit-text-size-adjust: 100%;
+         -ms-text-size-adjust: 100%;
+         }
+         table,
+         td {
+         mso-table-lspace: 0pt;
+         mso-table-rspace: 0pt;
+         }
+         img {
+         -ms-interpolation-mode: bicubic;
+         }
+         /* RESET STYLES */
+         img {
+         border: 0;
+         height: auto;
+         line-height: 100%;
+         outline: none;
+         text-decoration: none;
+         }
+         table {
+         border-collapse: collapse !important;
+         }
+         body {
+         height: 100% !important;
+         margin: 0 !important;
+         padding: 0 !important;
+         width: 100% !important;
+         }
+         /* iOS BLUE LINKS */
+         a[x-apple-data-detectors] {
+         color: inherit !important;
+         text-decoration: none !important;
+         font-size: inherit !important;
+         font-family: inherit !important;
+         font-weight: inherit !important;
+         line-height: inherit !important;
+         }
+      </style>
+
+
+   
+      <table align="center" cellpadding="0" cellspacing="0" style="margin: 0; padding: 0;" width="100%">
+         <tr>
+            <td align="center" valign="top" style="background-color: #e9ebeb;">
+               <table align="center" cellpadding="0" cellspacing="0" width="655">
+                  <tr>
+                     <td align="center" valign="top" style="background-color: #ffffff;">
+                        <table align="center" cellpadding="0" cellspacing="0" width="100%">
+                           <tr>
+                              <td align="center" valign="top">
+                                
+        <img src="https://image.s50.sfmc-content.com/lib/fe33117175640478721579/m/1/308cc387-e078-487e-9fb0-73aee3824a3b.png" width="655" style="display: block;" border="0">
+   
+                                
+                              </td>
+                           </tr>
+</table><table align="center" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+                              <td style="padding: 10px 20px; background-color: #000000;" bgcolor="#000000">
+                                 <table align="center" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                      
+    <td style="font-family:verdana;font-size: 50px;line-height: 8px;
+           color: #ffffff;padding: 1px;">
+                      <b>%%=v(@couponCode)=%%</b><br>
+                                       </td>
+                                    </tr>
+                                     
+                                 </table>
+                              </td>
+                           </tr>
+                       
+                           
+                         <!-- footer starts -->
+                           <tr>
+                              <td style="padding: 10px 20px; background-color: #000000;" bgcolor="#000000">
+                                 <table align="center" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                      <!--[if mso]>
+                                                                         <td
+                                          style="
+                                          font-family: '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 11px;
+                                          line-height: 5px;
+                                          color: #ffffff;
+                                          padding: 5px;
+                                          "
+                                          >
+                                          This email was sent by PepsiCo, 3026 Prince Mohammed Ibn Salman Ibn Abdulaziz Rd,<br />
+                                       </td>
+<![endif]-->
+   <!--[if !mso]> <!-->   
+                                       <td style="
+                                          font-family: '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 11px;
+                                          line-height: 8px;
+                                          color: #ffffff;
+                                          padding: 8px;
+                                          ">
+                                          This email was sent by PepsiCo, 3026 Prince Mohammed Ibn Salman Ibn Abdulaziz Rd,<br>
+                                       </td>
+                                    </tr>
+                                    <!--<![endif]-->   
+                                    <tr>
+                                      <!--[if mso]>
+                                                                         <td
+                                          style="
+                                          font-family: '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 11px;
+                                          line-height: 5px;
+                                          color: #ffffff;
+                                          text-align: center;
+                                          padding: 5px;
+                                          "
+                                          >
+                                          As Sahafah, Riyadh 13315, Saudi Arabia<br />
+                                       </td>
+<![endif]-->
+   <!--[if !mso]> <!-->  
+                                       <td style="
+                                          font-family: '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 11px;
+                                          line-height: 8px;
+                                          color: #ffffff;
+                                          text-align: center;
+                                          padding: 8px;
+                                          ">
+                                          As Sahafah, Riyadh 13315, Saudi Arabia<br>
+                                       </td>
+                                    </tr>
+                                    <!--<![endif]-->   
+                                    <tr>
+                                      <!--[if mso]>
+                                                                         <td
+                                          align="center"
+                                          valign="top"
+                                          style="
+                                          font-family: 'Hacen_Saudi_Arabia', '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 9px;
+                                          line-height: 5px;
+                                          color: #ffffff;
+                                          direction: rtl;
+                                          text-align: center;
+                                          direction: rtl;
+                                          padding: 5px;
+                                          "
+                                          > <a   style="color: #ffffff; text-decoration:none" href="%%profile_center_url%%" alias="مركز الملف الشخصى">
+                                          مركز الملف الشخصى
+                                         </a> </td>
+<![endif]-->
+   <!--[if !mso]> <!-->  
+                                       <td align="center" valign="top" style="
+                                          font-family: 'Hacen_Saudi_Arabia', '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 9px;
+                                          line-height: 8px;
+                                          color: #ffffff;
+                                          direction: rtl;
+                                          text-align: center;
+                                          direction: rtl;
+                                          padding: 8px;
+                                          "> <a style="color: #ffffff; text-decoration:none" href="%%profile_center_url%%" alias="مركز الملف الشخصى">
+                                          مركز الملف الشخصى
+                                         </a> </td>
+                                    </tr>
+                                    <!--<![endif]-->   
+                                    <tr>
+                                      <!--[if mso]>
+                                                                          <td
+                                          align="center"
+                                          valign="top"
+                                          style="
+                                          font-family: 'Hacen_Saudi_Arabia', '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 9px;
+                                          line-height: 5px;
+                                          color: #ffffff;
+                                          direction: rtl;
+                                          text-align: center;
+                                          direction: rtl;
+                                          padding: 5px;
+                                          "
+                                          > <a style="color: #ffffff; text-decoration:none" href="%%subscription_center_url%%" alias="التحكم فى الاشتراك">
+                                          التحكم فى الاشتراك
+                                         </a>
+ </td>
+<![endif]-->
+   <!--[if !mso]> <!-->  
+                                       <td align="center" valign="top" style="
+                                          font-family: 'Hacen_Saudi_Arabia', '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 9px;
+                                          line-height: 8px;
+                                          color: #ffffff;
+                                          direction: rtl;
+                                          text-align: center;
+                                          direction: rtl;
+                                          padding: 8px;
+                                          "> <a style="color: #ffffff; text-decoration:none" href="%%subscription_center_url%%" alias="التحكم فى الاشتراك">
+                                          التحكم فى الاشتراك
+                                         </a>
+ </td>
+                                    </tr>
+                                    <!--<![endif]-->   
+                                    <tr>
+                                      <!--[if mso]>
+                                                                         <td
+                                          align="center"
+                                          valign="top"
+                                          style="
+                                          font-family: 'Hacen_Saudi_Arabia', '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 9px;
+                                          line-height: 5px;
+                                          color: #ffffff;
+                                          direction: rtl;
+                                          text-align: center;
+                                          direction: rtl;
+                                          padding: 5px;
+                                          "
+                                          >
+                                         <a style="color: #ffffff; text-decoration:none" href="%%unsub_center_url%%" alias="Unsubscribe">
+                                          إلغاء الاشتراك
+                                         </a><br />
+                                       </td>
+<![endif]-->
+   <!--[if !mso]> <!-->  
+                                       <td align="center" valign="top" style="
+                                          font-family: 'Hacen_Saudi_Arabia', '-apple-system', system-ui, BlinkMacSystemFont, 'Segoe UI', 'Droid Sans', Roboto, 'Helvetica Neu', Arial, sans-serif;
+                                          font-size: 9px;
+                                          line-height: 8px;
+                                          color: #ffffff;
+                                          direction: rtl;
+                                          text-align: center;
+                                          direction: rtl;
+                                          padding: 8px;
+                                          ">
+                                         <a style="color: #ffffff; text-decoration:none" href="%%unsub_center_url%%" alias="Unsubscribe">
+                                          إلغاء الاشتراك
+                                         </a><br>
+                                       </td>
+                                    </tr>
+                                    <!--<![endif]-->   
+                                 </table>
+                              </td>
+                           </tr>
+                           <!-- footer ends -->
+                        </table>
+                  
+     <custom name="opencounter" type="tracking">
+   
+</custom>
+                       </td></tr></table></td></tr></table>
+--------------------------------------------------------------------------------------------------------------

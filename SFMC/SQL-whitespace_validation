@@ -1,0 +1,35 @@
+Select EmailAddress,Name, MobileNumber, SFMC_InsertDate,Address
+from [PAK_Pepsi_Promo_2023_FormInputs]
+where 
+Address is null
+OR
+len(TRIM (REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(Address,
+                            CHAR(13),''),
+                        CHAR(12), ''),
+                    CHAR(11), ''),
+                CHAR(10),''),
+            CHAR(9),''),
+        CHAR(32),''))) = 0
+        
+OR
+len(MobileNumber) < 3
+OR
+Name is null
+OR 
+len(TRIM (REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(Name,
+                            CHAR(13),''),
+                        CHAR(12), ''),
+                    CHAR(11), ''),
+                CHAR(10),''),
+            CHAR(9),''),
+        CHAR(32),''))) = 0

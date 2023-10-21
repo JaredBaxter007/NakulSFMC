@@ -1,0 +1,1455 @@
+select 1 as ReportID, 'Profile: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [KSA_Profile]
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 11 as ReportID, 'Profile: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, SourceID
+ , null as LabelFld
+from [KSA_Campaign_SourceID_Log] 
+group by SourceID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+SELECT
+	11 AS ReportID, 'Profile: Lifetime Count' AS ReportName, count(*) AS Total,
+	MAX(InsertedDate) AS DateFld, SourceID, NULL AS LabelFld
+FROM [KSA_Campaign_SourceID_Log]
+GROUP BY SourceID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 111 as ReportID, 'Profile: last 7 days by SourceID' as ReportName, count(*) as Total
+ ,null as DateFld, SourceID
+ , null as LabelFld
+from [KSA_Campaign_SourceID_Log] 
+where InsertedDate >= convert(date,GetDate()-7)
+group by SourceID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 111 as ReportID, 'Profile: last 7 days by SourceID' as ReportName, count(*) as Total
+ ,MAX(InsertedDate) as DateFld, SourceID
+ , null as LabelFld
+from [KSA_Campaign_SourceID_Log]
+where InsertedDate >= convert(date,GetDate()-7)
+group by SourceID
+
+union all
+
+select 2 as ReportID, 'Profile Opt-In: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [KSA_Profile] 
+where [EmailOpt-In] = 1 or  [SMSOpt-In] = 1 or [WhatsAppOpt-in] = 1
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 12 as ReportID, 'Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , null as DateFld, SourceID, 'Email' as LabelFld
+from [KSA_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [EmailOpt-In] = 1
+group by SourceID, CAST(SFMC_UpdateDate AS DATE)
+order by CAST(SFMC_UpdateDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 12 as ReportID, 'Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID, 'Email' as LabelFld
+from [KSA_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [EmailOpt-In] = 1
+group by SourceID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 12 as ReportID, 'Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , null as DateFld, SourceID, 'SMS' as LabelFld
+from [KSA_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [SMSOpt-In] = 1
+group by SourceID, CAST(SFMC_UpdateDate AS DATE)
+order by CAST(SFMC_UpdateDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 12 as ReportID, 'Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID, 'SMS' as LabelFld
+from [KSA_Profile]
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [SMSOpt-In] = 1
+group by SourceID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 12 as ReportID, 'Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , null  as DateFld, SourceID, 'WhatsApp' as LabelFld
+from [KSA_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [WhatsAppOpt-in] = 1
+group by SourceID, CAST(SFMC_UpdateDate AS DATE)
+order by CAST(SFMC_UpdateDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 12 as ReportID, 'Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate)  as DateFld, SourceID, 'WhatsApp' as LabelFld
+from [KSA_Profile]
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [WhatsAppOpt-in] = 1
+group by SourceID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 3 as ReportID, 'Reward Points: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [KSA_Reward_Points] 
+group by CampaignID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 3 as ReportID, 'Reward Points: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [KSA_Reward_Points]
+group by CampaignID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 13 as ReportID, 'Reward Points: last 7 days' as ReportName, count(*) as Total
+ ,null as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [KSA_Reward_Points] 
+where DateEarned >= convert(date,GetDate()-7)
+group by CampaignID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 13 as ReportID, 'Reward Points: last 7 days' as ReportName, count(*) as Total
+ ,MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [KSA_Reward_Points]
+where DateEarned >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+/*
+select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 4 as ReportID, 'Reward Redemptions: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [KSA_Reward_Redemptions] 
+group by CampaignID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 4 as ReportID, 'Reward Redemptions: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [KSA_Reward_Redemptions]
+group by CampaignID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 14 as ReportID, 'Reward Redemptions: last 7 days' as ReportName, count(*) as Total
+ , null  as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [KSA_Reward_Redemptions] 
+where RewardRedeemedDate >= convert(date,GetDate()-7)
+group by CampaignID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 14 as ReportID, 'Reward Redemptions: last 7 days' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [KSA_Reward_Redemptions]
+where RewardRedeemedDate >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+
+/*
+Added to get Unique Subscribers Count for each campaign (Enhancement)
+*/
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 15 as ReportID, 'Unique Subscribers Count' as ReportName, count(sub.SourceID) as Total
+, null as DateFld, sub.SourceID as SourceID
+ , null as LabelFld  
+from
+(Select SourceID, EmailAddress,
+row_number() over ( partition by EmailAddress order by InsertedDate desc) as ranking, InsertedDate
+from [KSA_Campaign_SourceID_Log]) sub 
+where sub.ranking = 1
+Group by sub.SourceID, CAST(sub.InsertedDate AS DATE)
+order by CAST(sub.InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 15 as ReportID, 'Unique Subscribers Count' as ReportName,
+	count(sub.EmailAddress) as Total, MAX(sub.InsertedDate) as DateFld,
+	sub.SourceID, null as LabelFld
+from(Select SourceID, EmailAddress, InsertedDate,
+	row_number() over ( partition by EmailAddress order by InsertedDate desc) as ranking
+	from [KSA_Campaign_SourceID_Log]) sub
+where sub.ranking = 1
+Group by sub.SourceID
+
+union all
+/*
+UAE Count begins
+*/
+select 6 as ReportID, 'UAE_Profile: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [UAE_Profile] 
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 16 as ReportID, 'UAE_Profile: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, SourceID
+ , null as LabelFld
+from [UAE_Campaign_SourceID_Log] 
+group by SourceID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 16 as ReportID, 'UAE_Profile: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, SourceID
+ , null as LabelFld
+from [UAE_Campaign_SourceID_Log] 
+group by SourceID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 116 as ReportID, 'UAE_Profile: last 7 days by SourceID' as ReportName, count(*) as Total
+ ,null as DateFld, SourceID
+ , null as LabelFld
+from [UAE_Campaign_SourceID_Log] 
+where InsertedDate >= convert(date,GetDate()-7)
+group by SourceID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 116 as ReportID, 'UAE_Profile: last 7 days by SourceID' as ReportName, count(*) as Total
+ ,MAX(InsertedDate) as DateFld, SourceID
+ , null as LabelFld
+from [UAE_Campaign_SourceID_Log] 
+where InsertedDate >= convert(date,GetDate()-7)
+group by SourceID
+
+union all
+
+select 7 as ReportID, 'UAE_Profile Opt-In: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [UAE_Profile] 
+where [EmailOpt-In] = 1 or  [SMSOpt-In] = 1 or [WhatsAppOpt-in] = 1
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 17 as ReportID, 'UAE_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , null as DateFld, SourceID
+ , 'Email' as LabelFld
+from [UAE_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [EmailOpt-In] = 1
+group by SourceID, CAST(SFMC_UpdateDate AS DATE)
+order by CAST(SFMC_UpdateDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 17 as ReportID, 'UAE_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'Email' as LabelFld
+from [UAE_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [EmailOpt-In] = 1
+group by SourceID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 17 as ReportID, 'UAE_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , null as DateFld, SourceID
+ , 'SMS' as LabelFld
+from [UAE_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [SMSOpt-In] = 1
+group by SourceID, CAST(SFMC_UpdateDate AS DATE)
+order by CAST(SFMC_UpdateDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 17 as ReportID, 'UAE_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'SMS' as LabelFld
+from [UAE_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [SMSOpt-In] = 1
+group by SourceID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 17 as ReportID, 'UAE_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , null as DateFld, SourceID
+ , 'WhatsApp' as LabelFld
+from [UAE_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [WhatsAppOpt-in] = 1
+group by SourceID, CAST(SFMC_UpdateDate AS DATE)
+order by CAST(SFMC_UpdateDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 17 as ReportID, 'UAE_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'WhatsApp' as LabelFld
+from [UAE_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [WhatsAppOpt-in] = 1
+group by SourceID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 8 as ReportID, 'UAE_Reward Points: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [UAE_Reward_Points] 
+group by CampaignID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 8 as ReportID, 'UAE_Reward Points: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [UAE_Reward_Points] 
+group by CampaignID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 18 as ReportID, 'UAE_Reward Points: last 7 days' as ReportName, count(*) as Total
+ , null as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [UAE_Reward_Points] 
+where DateEarned >= convert(date,GetDate()-7)
+group by CampaignID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 18 as ReportID, 'UAE_Reward Points: last 7 days' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [UAE_Reward_Points] 
+where DateEarned >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 9 as ReportID, 'UAE_Reward Redemptions: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [UAE_Reward_Redemptions] 
+group by CampaignID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 9 as ReportID, 'UAE_Reward Redemptions: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [UAE_Reward_Redemptions] 
+group by CampaignID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 19 as ReportID, 'UAE_Reward Redemptions: last 7 days' as ReportName, count(*) as Total
+ , null as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [UAE_Reward_Redemptions] 
+where RewardRedeemedDate >= convert(date,GetDate()-7)
+group by CampaignID, CAST(InsertedDate AS DATE)
+order by CAST(InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 19 as ReportID, 'UAE_Reward Redemptions: last 7 days' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [UAE_Reward_Redemptions] 
+where RewardRedeemedDate >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+
+/*select ReportID, ReportName, SUM(Total) AS Total, DateFld, SourceID, LabelFld
+FROM(
+select TOP 10000 20 as ReportID, 'UAE_Unique Subscribers Count' as ReportName, count(sub.SourceID) as Total
+, null as DateFld, sub.SourceID as SourceID
+ , null as LabelFld  
+from
+(Select SourceID, EmailAddress,
+row_number() over ( partition by EmailAddress order by InsertedDate desc) as ranking, InsertedDate
+from [UAE_Campaign_SourceID_Log]) sub 
+where sub.ranking = 1
+Group by sub.SourceID, CAST(sub.InsertedDate AS DATE)
+order by CAST(sub.InsertedDate AS DATE) DESC) a
+GROUP BY ReportID, ReportName, DateFld, SourceID, LabelFld*/
+
+select 20 as ReportID, 'UAE_Unique Subscribers Count' as ReportName, count(sub.EmailAddress) as Total
+, MAX(sub.InsertedDate) as DateFld, sub.SourceID
+ , null as LabelFld
+from(Select SourceID, EmailAddress, InsertedDate,
+	row_number() over ( partition by EmailAddress order by InsertedDate desc) as ranking
+	from [UAE_Campaign_SourceID_Log]) sub
+where sub.ranking = 1
+Group by sub.SourceID
+
+/* UAE Count Ends */
+
+union all
+
+/* Oman Count Begins */
+
+select 21 as ReportID, 'OMAN_Profile: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [Oman_Profile] 
+
+union all
+
+select 22 as ReportID, 'OMAN_Profile: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, SourceID
+ , null as LabelFld
+from [Oman_Campaign_SourceID_Log] 
+group by SourceID
+
+union all
+
+select 23 as ReportID, 'OMAN_Profile: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, SourceID
+ , null as LabelFld
+from [Oman_Campaign_SourceID_Log] 
+where InsertedDate >= convert(date,GetDate()-7)
+group by SourceID
+
+union all
+
+Select 24 as ReportID, 'OMAN_Profile Opt-In: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [Oman_Profile] 
+where [EmailOpt-In] = 1 or  [SMSOpt-In] = 1 or [WhatsAppOpt-in] = 1
+
+union all
+
+select 25 as ReportID, 'OMAN_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ ,MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'Email' as LabelFld
+from [Oman_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [EmailOpt-In] = 1
+group by SourceID
+
+union all
+
+select 25 as ReportID, 'OMAN_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'SMS' as LabelFld
+from [Oman_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [SMSOpt-In] = 1
+group by SourceID
+
+union all
+
+select 25 as ReportID, 'OMAN_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'WhatsApp' as LabelFld
+from [Oman_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [WhatsAppOpt-in] = 1
+group by SourceID
+
+union all
+
+select 26 as ReportID, 'OMAN_Reward Points: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [Oman_Reward_Points] 
+group by CampaignID
+
+union all
+
+select 27 as ReportID, 'OMAN_Reward Points: last 7 days' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [Oman_Reward_Points] 
+where DateEarned >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+
+select 28 as ReportID, 'OMAN_Reward Redemptions: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [Oman_Reward_Redemptions] 
+group by CampaignID
+
+union all
+
+select 29 as ReportID, 'OMAN_Reward Redemptions: last 7 days' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [Oman_Reward_Redemptions] 
+where RewardRedeemedDate >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+
+select 30 as ReportID, 'OMAN_Unique Subscribers Count' as ReportName, count(sub.SourceID) as Total
+, MAX(sub.InsertedDate) as DateFld, sub.SourceID as SourceID
+ , null as LabelFld  
+from
+(Select SourceID, EmailAddress,
+row_number() over ( partition by EmailAddress order by InsertedDate desc) as ranking, InsertedDate
+from [Oman_Campaign_SourceID_Log]) sub 
+where sub.ranking = 1
+Group by sub.SourceID
+
+/* Oman count ends */
+
+union all
+
+/* Kuwait Count Begins */
+
+select 31 as ReportID, 'Kuwait_Profile: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [Kuwait_Profile] 
+
+union all
+
+select 32 as ReportID, 'Kuwait_Profile: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, SourceID
+ , null as LabelFld
+from [Kuwait_Campaign_SourceID_Log] 
+group by SourceID
+
+union all
+
+select 33 as ReportID, 'Kuwait_Profile: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, SourceID
+ , null as LabelFld
+from [Kuwait_Campaign_SourceID_Log] 
+where InsertedDate >= convert(date,GetDate()-7)
+group by SourceID
+
+union all
+
+select 34 as ReportID, 'Kuwait_Profile Opt-In: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [Kuwait_Profile] 
+where [EmailOpt-In] = 1 or  [SMSOpt-In] = 1 or [WhatsAppOpt-in] = 1
+
+union all
+
+select 35 as ReportID, 'Kuwait_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ ,MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'Email' as LabelFld
+from [Kuwait_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [EmailOpt-In] = 1
+group by SourceID
+
+union all
+
+select 35 as ReportID, 'Kuwait_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'SMS' as LabelFld
+from [Kuwait_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [SMSOpt-In] = 1
+group by SourceID
+
+union all
+
+select 35 as ReportID, 'Kuwait_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'WhatsApp' as LabelFld
+from [Kuwait_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [WhatsAppOpt-in] = 1
+group by SourceID
+
+union all
+
+select 36 as ReportID, 'Kuwait_Reward Points: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [Kuwait_Reward_Points] 
+group by CampaignID
+
+union all
+
+select 37 as ReportID, 'Kuwait_Reward Points: last 7 days' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [Kuwait_Reward_Points] 
+where DateEarned >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+
+select 38 as ReportID, 'Kuwait_Reward Redemptions: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [Kuwait_Reward_Redemptions] 
+group by CampaignID
+
+union all
+
+select 39 as ReportID, 'Kuwait_Reward Redemptions: last 7 days' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [Kuwait_Reward_Redemptions] 
+where RewardRedeemedDate >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+
+select 40 as ReportID, 'Kuwait_Unique Subscribers Count' as ReportName, count(sub.SourceID) as Total
+, MAX(sub.InsertedDate) as DateFld, sub.SourceID as SourceID
+ , null as LabelFld  
+from
+(Select SourceID, EmailAddress,
+row_number() over ( partition by EmailAddress order by InsertedDate desc)
+as ranking, InsertedDate
+from [Kuwait_Campaign_SourceID_Log]) sub 
+where sub.ranking = 1
+Group by sub.SourceID
+/* Kuwait count ends */
+
+UNION ALL
+
+/*Egypt Count Begins */
+
+select 46 as ReportID, 'EGYPT_Profile: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [EGYPT_Profile] 
+
+union all
+
+select 47 as ReportID, 'EGYPT_Profile: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, SourceID
+ , null as LabelFld
+from [EGYPT_Campaign_SourceID_Log] 
+group by SourceID
+
+union all
+
+select 48 as ReportID, 'EGYPT_Profile: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(InsertedDate) as DateFld, SourceID
+ , null as LabelFld
+from [EGYPT_Campaign_SourceID_Log] 
+where InsertedDate >= convert(date,GetDate()-7)
+group by SourceID
+
+union all
+
+select 49 as ReportID, 'EGYPT_Profile Opt-In: Lifetime Count' as ReportName, count(*) as Total
+ , null as DateFld, null as SourceID
+ , null as LabelFld
+from [EGYPT_Profile] 
+where [EmailOpt-In] = 1 or  [SMSOpt-In] = 1 or [WhatsAppOpt-in] = 1
+
+union all
+
+select 50 as ReportID, 'EGYPT_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'Email' as LabelFld
+from [EGYPT_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [EmailOpt-In] = 1
+group by SourceID
+
+union all
+
+select 50 as ReportID, 'EGYPT_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'SMS' as LabelFld
+from [EGYPT_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [SMSOpt-In] = 1
+group by SourceID
+
+union all
+
+select 50 as ReportID, 'EGYPT_Profile Opt-In: last 7 days by SourceID' as ReportName, count(*) as Total
+ , MAX(SFMC_UpdateDate) as DateFld, SourceID
+ , 'WhatsApp' as LabelFld
+from [EGYPT_Profile] 
+where SFMC_UpdateDate >= convert(date,GetDate()-7)
+and [WhatsAppOpt-in] = 1
+group by SourceID
+
+union all
+
+select 51 as ReportID, 'EGYPT_Reward Points: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(DateEarned) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [EGYPT_Reward_Points] 
+group by CampaignID
+
+union all
+
+select 52 as ReportID, 'EGYPT_Reward Points: last 7 days' as ReportName, count(*) as Total
+ , MAX(DateEarned) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [EGYPT_Reward_Points] 
+where DateEarned >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+
+select 53 as ReportID, 'EGYPT_Reward Redemptions: Lifetime Count' as ReportName, count(*) as Total
+ , MAX(RewardRedeemedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [EGYPT_Reward_Redemptions] 
+group by CampaignID
+
+union all
+
+select 54 as ReportID, 'EGYPT_Reward Redemptions: last 7 days' as ReportName, count(*) as Total
+ , MAX(RewardRedeemedDate) as DateFld, CampaignID as SourceID
+ , null as LabelFld
+from [EGYPT_Reward_Redemptions] 
+where RewardRedeemedDate >= convert(date,GetDate()-7)
+group by CampaignID
+
+union all
+
+select 55 as ReportID, 'EGYPT_Unique Subscribers Count' as ReportName, count(sub.SourceID) as Total
+, MAX(InsertedDate) as DateFld, sub.SourceID as SourceID
+ , null as LabelFld  
+from
+(Select SourceID, MobileNumber,
+row_number() over ( partition by MobileNumber order by InsertedDate desc)
+as ranking, InsertedDate
+from [EGYPT_Campaign_SourceID_Log]) sub 
+where sub.ranking = 1
+Group by sub.SourceID
+
+/* Egypt count ends */
+
+UNION ALL
+
+/* AMESA Summary count starts */
+
+select 41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+	CONCAT(YEAR(InsertedDate),'-01','-01') AS DateFld, NULL AS SourceID, 'Kuwait' AS LabelFld
+	FROM [Kuwait_Profile] 
+	WHERE YEAR(InsertedDate) < YEAR(GETDATE())
+	GROUP BY CONCAT(YEAR(InsertedDate),'-01','-01')
+
+UNION ALL
+
+select 41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+    CONCAT(YEAR(GETDATE()),'-01','-01') AS DateFld, NULL AS SourceID, 'Kuwait' AS LabelFld
+    FROM [Kuwait_Profile] 
+    WHERE YEAR(InsertedDate) = YEAR(GETDATE())
+
+UNION ALL
+
+select 41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+    CONCAT(YEAR(InsertedDate),'-01','-01') AS DateFld, NULL AS SourceID, 'Oman' AS LabelFld
+	FROM [Oman_Profile] 
+	WHERE YEAR(InsertedDate) < YEAR(GETDATE())
+	GROUP BY CONCAT(YEAR(InsertedDate),'-01','-01')
+	
+UNION ALL
+
+SELECT
+    41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+    CONCAT(YEAR(GETDATE()),'-01','-01') AS DateFld, NULL AS SourceID, 'Oman' AS LabelFld
+    FROM [Oman_Profile] 
+    WHERE YEAR(InsertedDate) = YEAR(GETDATE())
+
+UNION ALL
+
+select 41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+    CONCAT(YEAR(InsertedDate),'-01','-01') AS DateFld, NULL AS SourceID, 'KSA' AS LabelFld
+    from [KSA_Profile] 
+    WHERE YEAR(InsertedDate) < YEAR(GETDATE())
+    GROUP BY CONCAT(YEAR(InsertedDate),'-01','-01')
+	
+UNION ALL
+
+SELECT
+    41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+    CONCAT(YEAR(GETDATE()),'-01','-01') AS DateFld, NULL AS SourceID, 'KSA' AS LabelFld
+    from [KSA_Profile] 
+    WHERE YEAR(InsertedDate) = YEAR(GETDATE())
+
+UNION ALL
+
+select 41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+    CONCAT(YEAR(InsertedDate),'-01','-01') AS DateFld, NULL AS SourceID, 'UAE' AS LabelFld
+    FROM [UAE_Profile] 
+    WHERE YEAR(InsertedDate) < YEAR(GETDATE())
+    GROUP BY CONCAT(YEAR(InsertedDate),'-01','-01')
+	
+UNION ALL
+
+SELECT
+    41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+    CONCAT(YEAR(GETDATE()),'-01','-01') AS DateFld, NULL AS SourceID, 'UAE' AS LabelFld
+    FROM [UAE_Profile] 
+    WHERE YEAR(InsertedDate) = YEAR(GETDATE())
+
+UNION ALL
+
+select 41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+    CONCAT(YEAR(InsertedDate),'-01','-01') AS DateFld, NULL AS SourceID, 'Egypt' AS LabelFld
+	FROM EGYPT_Profile 
+    WHERE YEAR(InsertedDate) < YEAR(GETDATE())
+    GROUP BY CONCAT(YEAR(InsertedDate),'-01','-01')
+	
+UNION ALL
+
+SELECT
+    41 AS ReportID, 'Profile Summary' AS ReportName, count(*) AS Total,
+    CONCAT(YEAR(GETDATE()),'-01','-01') AS DateFld, NULL AS SourceID, 'Egypt' AS LabelFld
+    FROM EGYPT_Profile 
+    WHERE YEAR(InsertedDate) = YEAR(GETDATE())
+
+UNION ALL
+
+/*SELECT ReportID, ReportName, Total, DateFld, SourceID, LabelFld
+	FROM
+		(SELECT TOP 4 42 AS ReportID, 'Profile Count of Top 4 Source IDs' AS ReportName,
+		count(*) AS Total, NULL AS DateFld, SourceID, 'Kuwait' AS LabelFld
+		FROM [Kuwait_Profile] 
+		WHERE YEAR(SFMC_UpdateDate) = YEAR(GETDATE())
+		GROUP BY SourceID
+		ORDER BY COUNT(*) DESC) 
+
+UNION ALL
+
+SELECT ReportID, ReportName, Total, DateFld, SourceID, LabelFld
+	FROM (SELECT TOP 4 42 AS ReportID, 'Profile Count of Top 4 Source IDs' AS ReportName,
+		count(*) AS Total, NULL AS DateFld, SourceID, 'Oman' AS LabelFld
+		FROM [Oman_Profile] 
+		WHERE YEAR(SFMC_UpdateDate) = YEAR(GETDATE())
+		GROUP BY SourceID
+		ORDER BY COUNT(*) DESC) 
+
+UNION ALL
+
+SELECT ReportID, ReportName, Total, DateFld, SourceID, LabelFld
+	FROM (SELECT TOP 4 42 AS ReportID, 'Profile Count of Top 4 Source IDs' AS ReportName,
+		count(*) AS Total, NULL AS DateFld, SourceID, 'KSA' AS LabelFld
+		from [KSA_Profile] 
+		WHERE YEAR(SFMC_UpdateDate) = YEAR(GETDATE())
+		GROUP BY SourceID
+		ORDER BY COUNT(*) DESC) 
+
+UNION ALL
+
+SELECT ReportID, ReportName, Total, DateFld, SourceID, LabelFld
+	FROM (SELECT TOP 4 42 AS ReportID, 'Profile Count of Top 4 Source IDs' AS ReportName,
+		count(*) AS Total, NULL AS DateFld, SourceID, 'UAE' AS LabelFld
+		FROM [UAE_Profile] 
+		WHERE YEAR(SFMC_UpdateDate) = YEAR(GETDATE())
+		GROUP BY SourceID
+		ORDER BY COUNT(*) DESC) 
+
+UNION ALL
+
+SELECT ReportID, ReportName, Total, DateFld, SourceID, LabelFld
+	FROM (SELECT TOP 4 42 AS ReportID, 'Profile Count of Top 4 Source IDs' AS ReportName,
+		count(*) AS Total, NULL AS DateFld, SourceID, 'Egypt' AS LabelFld
+		FROM EGYPT_Profile 
+		WHERE YEAR(SFMC_UpdateDate) = YEAR(GETDATE())
+		GROUP BY SourceID
+		ORDER BY COUNT(*) DESC) */
+
+SELECT 42 AS ReportID, 'Profile Count of All Source IDs' AS ReportName,
+	count(*) AS Total, MAX(SFMC_UpdateDate) AS DateFld, SourceID,
+	'Kuwait' AS LabelFld
+FROM [Kuwait_Profile]
+GROUP BY SourceID
+
+UNION ALL
+
+SELECT 42 AS ReportID, 'Profile Count of All Source IDs' AS ReportName,
+	count(*) AS Total, MAX(SFMC_UpdateDate) AS DateFld, SourceID,
+	'Oman' AS LabelFld
+FROM [Oman_Profile]
+GROUP BY SourceID
+
+UNION ALL
+
+SELECT 42 AS ReportID, 'Profile Count of All Source IDs' AS ReportName,
+	count(*) AS Total, MAX(SFMC_UpdateDate) AS DateFld, SourceID,
+	'KSA' AS LabelFld
+FROM [KSA_Profile]
+GROUP BY SourceID
+
+UNION ALL
+
+SELECT 42 AS ReportID, 'Profile Count of All Source IDs' AS ReportName,
+	count(*) AS Total, MAX(SFMC_UpdateDate) AS DateFld, SourceID,
+	'UAE' AS LabelFld
+FROM [UAE_Profile]
+GROUP BY SourceID
+
+UNION ALL
+
+SELECT 42 AS ReportID, 'Profile Count of All Source IDs' AS ReportName,
+	count(*) AS Total, MAX(SFMC_UpdateDate) AS DateFld, SourceID,
+	'Egypt' AS LabelFld
+FROM [EGYPT_Profile]
+GROUP BY SourceID
+
+/* AMESA Summary count ends */
+
+/* Opt-in count starts */
+UNION ALL
+
+SELECT 43 AS ReportID, 'KSA Email Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] 
+WHERE [EmailOpt-In] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'KSA SMS Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] 
+WHERE [SMSOpt-in] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'KSA WhatsApp Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] 
+WHERE [WhatsAppOpt-in] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'UAE Email Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] 
+WHERE [EmailOpt-In] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'UAE SMS Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] 
+WHERE [SMSOpt-in] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'UAE WhatsApp Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] 
+WHERE [WhatsAppOpt-in] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'Oman Email Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] 
+WHERE [EmailOpt-In] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'Oman SMS Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] 
+WHERE [SMSOpt-in] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'Oman WhatsApp Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] 
+WHERE [WhatsAppOpt-in] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'Kuwait Email Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] 
+WHERE [EmailOpt-In] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'Kuwait SMS Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] 
+WHERE [SMSOpt-in] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'Kuwait WhatsApp Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] 
+WHERE [WhatsAppOpt-in] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'EGYPT Email Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM EGYPT_Profile 
+WHERE [EmailOpt-In] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'EGYPT SMS Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM EGYPT_Profile 
+WHERE [SMSOpt-in] = 1
+
+UNION ALL
+
+SELECT 43 AS ReportID, 'EGYPT WhatsApp Optins' AS ReportName, count(*) AS Total,
+NULL AS DateFld, NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM EGYPT_Profile 
+WHERE [WhatsAppOpt-in] = 1
+
+/* Opt-in count ends */
+
+UNION ALL
+
+/* Brand count starts */
+
+SELECT 44 AS ReportID, AC.Brand AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+INNER JOIN [KSA_Active_Campaigns] AC ON P.SourceID = AC.SourceId
+GROUP BY AC.Brand
+
+UNION ALL
+
+SELECT 44 AS ReportID, AC.Brand AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+INNER JOIN [UAE_Active_Campaigns] AC ON P.SourceID = AC.SourceId
+GROUP BY AC.Brand
+
+UNION ALL
+
+SELECT 44 AS ReportID, AC.Brand AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+INNER JOIN [Oman_Active_Campaigns] AC ON P.SourceID = AC.SourceId
+GROUP BY AC.Brand
+
+UNION ALL
+
+SELECT 44 AS ReportID, AC.Brand AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+INNER JOIN [Kuwait_Active_Campaigns] AC ON P.SourceID = AC.SourceId
+GROUP BY AC.Brand
+
+UNION ALL
+
+SELECT 44 AS ReportID, AC.Brand AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Egypt' AS LabelFld
+FROM [EGYPT_Profile] P
+INNER JOIN Egypt_Active_Campaigns AC ON P.SourceID = AC.SourceId
+GROUP BY AC.Brand
+
+/* Brand count ends */
+
+UNION ALL
+
+/* Attributes count starts */
+
+SELECT 45 AS ReportID, 'Attributes count - Universe' AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailAddress' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(EmailAddress))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MobileNumber' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MobileNumber))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - DOB' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(Age))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - SMSOpt-in' AS ReportName, (SUM(CASE WHEN [SMSOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailOpt-in' AS ReportName, (SUM(CASE WHEN [EmailOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - WhatsAppOpt-in' AS ReportName, (SUM(CASE WHEN [WhatsAppOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - FirstName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(FirstName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - LastName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(LastName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MAID' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MAID))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - Reward Redemptions' AS ReportName,
+(COUNT(R.EmailAddress)* 100)/COUNT(P.EmailAddress) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'KSA' AS LabelFld
+from [KSA_Profile] P
+LEFT JOIN (SELECT DISTINCT EmailAddress FROM [Reward_Redemptions]) R ON P.EmailAddress = R.EmailAddress
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes count - Universe' AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailAddress' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(EmailAddress))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MobileNumber' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MobileNumber))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - DOB' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(Age))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - SMSOpt-in' AS ReportName, (SUM(CASE WHEN [SMSOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailOpt-in' AS ReportName, (SUM(CASE WHEN [EmailOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - WhatsAppOpt-in' AS ReportName, (SUM(CASE WHEN [WhatsAppOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - FirstName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(FirstName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - LastName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(LastName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MAID' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MAID))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - Reward Redemptions' AS ReportName,
+(COUNT(R.EmailAddress)* 100)/COUNT(P.EmailAddress) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Kuwait' AS LabelFld
+FROM [Kuwait_Profile] P
+LEFT JOIN (SELECT DISTINCT EmailAddress FROM [Kuwait_Reward_Redemptions]) R ON P.EmailAddress = R.EmailAddress
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes count - Universe' AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailAddress' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(EmailAddress))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MobileNumber' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MobileNumber))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - DOB' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(Age))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - SMSOpt-in' AS ReportName, (SUM(CASE WHEN [SMSOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailOpt-in' AS ReportName, (SUM(CASE WHEN [EmailOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - WhatsAppOpt-in' AS ReportName, (SUM(CASE WHEN [WhatsAppOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - FirstName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(FirstName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - LastName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(LastName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MAID' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MAID))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - Reward Redemptions' AS ReportName,
+(COUNT(R.EmailAddress)* 100)/COUNT(P.EmailAddress) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Oman' AS LabelFld
+FROM [Oman_Profile] P
+LEFT JOIN (SELECT DISTINCT EmailAddress FROM [Oman_Reward_Redemptions]) R ON P.EmailAddress = R.EmailAddress
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes count - Universe' AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailAddress' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(EmailAddress))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MobileNumber' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MobileNumber))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - DOB' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(Age))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - SMSOpt-in' AS ReportName, (SUM(CASE WHEN [SMSOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailOpt-in' AS ReportName, (SUM(CASE WHEN [EmailOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - WhatsAppOpt-in' AS ReportName, (SUM(CASE WHEN [WhatsAppOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - FirstName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(FirstName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - LastName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(LastName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MAID' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MAID))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - Reward Redemptions' AS ReportName,
+(COUNT(R.EmailAddress)* 100)/COUNT(P.EmailAddress) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'UAE' AS LabelFld
+FROM [UAE_Profile] P
+LEFT JOIN (SELECT DISTINCT EmailAddress FROM [UAE_Reward_Redemptions]) R ON P.EmailAddress = R.EmailAddress
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes count - Universe' AS ReportName, COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailAddress' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(EmailAddress))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MobileNumber' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MobileNumber))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - DOB' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(Age))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - SMSOpt-in' AS ReportName, (SUM(CASE WHEN [SMSOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - EmailOpt-in' AS ReportName, (SUM(CASE WHEN [EmailOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - WhatsAppOpt-in' AS ReportName, (SUM(CASE WHEN [WhatsAppOpt-in] = 1 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - FirstName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(FirstName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - LastName' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(LastName))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - MAID' AS ReportName, (SUM(CASE WHEN LEN(LTRIM(RTRIM(MAID))) > 0 THEN 1 ELSE 0 END)* 100)/COUNT(*) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'EGYPT' AS LabelFld
+FROM [EGYPT_Profile] P
+
+UNION ALL
+
+SELECT 45 AS ReportID, 'Attributes Percent - Reward Redemptions' AS ReportName,
+(COUNT(R.MobileNumber)* 100)/COUNT(P.MobileNumber) AS Total, NULL AS DateFld,
+NULL AS SourceID, 'Egypt' AS LabelFld
+FROM [EGYPT_Profile] P
+LEFT JOIN (SELECT DISTINCT MobileNumber FROM EGYPT_Reward_Redemptions) R ON P.MobileNumber = R.MobileNumber
+
+/* Attributes count ends */
+
+/* ----------------------------------
+name: PCAMESA_KSA_CMPGN_RPT_DATA_DAILY
+Type: Overwrite
+Target: PCAMESA_KSA_CMPGN_RPT_DATA_DAILY
+Description:
+- profile = lifetime count & last 7 days by sourceid  (group days by AccountRegistrationDate)
+- opt-in = lifetime count & last 7 days by sourceid  (group days by AccountRegistrationDate)
+- reward point = lifetime count & last 7 days by sourceid  (group days by DateEarned)
+- redeemed point = lifetime count & last 7 days by sourceid  (group days by RewardRedeemedDate)
+------------------------------------------- */

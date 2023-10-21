@@ -1,0 +1,71 @@
+
+select sub.EmailAddress, sub.MobileNumber, sub.LanguagePreference, sub.Country, sub.AccountRegistrationDate, sub.SourceID
+     , sub.FirstName, sub.LastName, sub.MegaPrize, sub.CurrentPoints, sub.LastActivity_UpdateDate, sub.LastUpdateDate
+     , sub.City, sub.MAID, sub.[WhatsAppOpt-in]
+     , sub.[SMSOpt-in], sub.[EmailOpt-in]
+     , getDate() as SFMC_UpdateDate
+     , sub.Age, sub.Gender
+from (
+    select 
+	case 
+		    when  (staging.SourceID in ('KSA_PEPSI_WHATSAPP_PEPSIMEALS_PROMO_07012021',
+		                                'KSA_PEPSI_WHATSAPP_SUMMERBONANZA_PROMO_06152021',
+		                                'KSA_PEPSI_WHATSAPP_BIBCUPPROMO_PROMO_07012021') and staging.EmailAddress is null) 
+		    then staging.MobileNumber+'@dummy.com'
+			else COALESCE(target.EmailAddress, staging.EmailAddress)
+		end as EmailAddress
+     , COALESCE(target.AccountRegistrationDate, staging.AccountRegistrationDate) as AccountRegistrationDate   
+    /* -- ^^ -- keep original values -- ^^ -- */
+        , COALESCE(staging.MobileNumber, target.MobileNumber) as MobileNumber
+        , COALESCE(staging.LanguagePreference, target.LanguagePreference) as LanguagePreference
+        , COALESCE(staging.Country, target.Country) as Country
+        , COALESCE(staging.SourceID, target.SourceID) as SourceID
+        , COALESCE(staging.FirstName, target.FirstName) as FirstName
+        , COALESCE(staging.LastName, target.LastName) as LastName
+        , COALESCE(staging.MegaPrize, target.MegaPrize) as MegaPrize
+        , COALESCE(staging.CurrentPoints, target.CurrentPoints) as CurrentPoints
+        , COALESCE(staging.LastActivity_UpdateDate, target.LastActivity_UpdateDate) as LastActivity_UpdateDate
+        , COALESCE(staging.LastUpdateDate, target.LastUpdateDate) as LastUpdateDate
+        , COALESCE(staging.City, target.City) as City
+        , COALESCE(staging.MAID, target.MAID) as MAID
+        , COALESCE(staging.[SMSOpt-in], target.[SMSOpt-in]) as [SMSOpt-in]
+        , COALESCE(staging.[WhatsAppOpt-in], target.[WhatsAppOpt-in]) as [WhatsAppOpt-in]
+        , COALESCE(staging.Age, target.Age) as Age
+        , COALESCE(staging.Gender, target.Gender) as Gender
+        , case 
+		    when (staging.SourceID in ('KSA_PEPSI_WHATSAPP_PEPSIMEALS_PROMO_07012021',
+		                               'KSA_PEPSI_WHATSAPP_SUMMERBONANZA_PROMO_06152021',
+		                               'KSA_PEPSI_WHATSAPP_BIBCUPPROMO_PROMO_07012021') and staging.EmailAddress is null) 
+		    then '0'
+			else COALESCE(staging.[EmailOpt-in], target.[EmailOpt-in]) 
+		end as [EmailOpt-in]
+		/* -- ^^ -- update if not null -- ^^ -- */
+        , GetDate() as SFMC_UpdateDate
+        , case
+            when (staging.SourceID in ('KSA_PEPSI_WHATSAPP_PEPSIMEALS_PROMO_07012021',
+		                               'KSA_PEPSI_WHATSAPP_SUMMERBONANZA_PROMO_06152021',
+		                               'KSA_PEPSI_WHATSAPP_BIBCUPPROMO_PROMO_07012021') and  staging.EmailAddress is null) 
+		    then row_number() over ( partition by staging.MobileNumber order by staging.LastUpdateDate, staging.LastActivity_UpdateDate desc)
+            else row_number() over ( partition by staging.EmailAddress order by staging.LastUpdateDate, staging.LastActivity_UpdateDate desc)
+        end as ranking
+    from [KSA_Profile_Staging] staging
+    left join [KSA_Profile] target on target.EmailAddress = staging.EmailAddress
+    where EXISTS (
+        select 1
+        from [KSA_Active_Campaigns] ac
+        where ac.active = 1
+        and ac.SourceID = staging.SourceID
+    )
+    and NOT EXISTS (
+        select 1
+        from ENT.[PepsiTestingUsers_backup] t
+        where t.Email = staging.EmailAddress
+    )
+) sub
+where sub.ranking = 1
+/* ---------------------------------------
+name: Staging_To_Profile
+type: Update
+target: Profile
+description: This query moves records from Profile staging DE and update records in Profile DE
+------------------------------------------ */

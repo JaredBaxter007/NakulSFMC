@@ -1,1 +1,32 @@
+SELECT EmailAddress 
+CASE WHEN EmailAddress Like '%^[A-Za-z0-9._%\-+!#$&/=?^|~]+@[A-Za-z0-9.-]+[.][A-Za-z]+$%' THEN 'Valid'
+ELSE 'INVALID' END
+AS valid_email
+FROM Database
+Where EmailAddress is not null
+I got this also
 
+
+keep it simple, don't use complex email validation logic
+
+WHERE email LIKE '%_@__%.__%'
+
+
+what validation is included in the above query?
+
+You Tue, 10:23
+Only one symbol “@”
+At least one symbol “.”
+If there is only one “.” symbol it should be after the symbol “@” (and not before it)
+At least 6 characters
+The symbols “.” and “@” must not be next to each other
+The symbol “.” or “@” must not be at the beginning or end of the address In addition, the Email Address must not contain the following symbols: “=”, “_”, “-“, “+”, “&”, “<”, “>” or “,”.
+these many
+
+
+Only one symbol “@” - ok
+At least one symbol “.” - ok
+If there is only one “.” symbol it should be after the symbol “@” (and not before it) - not ok, amit.gaikwad@gmail.com is also a valid email
+At least 6 characters - ok
+The symbols “.” and “@” must not be next to each other - ok
+The symbol “.” or “@” must not be at the beginning or end of the address - ok In addition, the Email Address must not contain the following symbols: “=”, “_”, “-“, “+”, “&”, “<”, “>” or “,”. - not ok, amit_gaikwad@gmail.com is also a valid email

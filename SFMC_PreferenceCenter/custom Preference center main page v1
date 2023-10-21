@@ -1,0 +1,234 @@
+<div style="overflow-x:auto;"> 
+  <form action="https://mcmqczd118jdz8xqdfsbxdwh96f0.pub.sfmc-content.com/qeahoqizawh" method="post">
+  
+   <table class="center" width="90%" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+      <br>
+      <div class="form-group">
+        <center><p style="color:#0047ab; font-size: 15pt; line-height: 1; font-family: Helvetica, Arial, sans-serif; font-weight: 700; padding-top:20px;text-align:left;">Available Communications</p></center>
+        
+        <p style="font-size: 10pt;">
+    To unsubscribe, just uncheck the box and click the update preferences button below. To subscribe to new communications, just check the appropriate box and click the update preferences button below.
+    </p>
+        
+  %%[   SET @subkey = RequestParameter("SubKey")
+        SET @emailAddress = RequestParameter("EmailAddress")
+       
+
+        /* Find Out the status of the subscribers */
+        SET @rr4 = CreateObject("RetrieveRequest")
+        SetObjectProperty(@rr4,"ObjectType","ListSubscriber")
+        AddObjectArrayItem(@rr4, "Properties", "Status")
+        AddObjectArrayItem(@rr4, "Properties", "ListID")
+         
+
+        /* Make sure that the list is public */
+        SET @sfp2 = CreateObject("SimpleFilterPart")
+        SetObjectProperty(@sfp2,"Property","SubscriberKey")
+        SetObjectProperty(@sfp2,"SimpleOperator","equals")
+        AddObjectArrayItem(@sfp2,"Value",@subKey)
+        /* set the filter to the request */
+        SetObjectProperty(@rr4,"Filter",@sfp2)
+        SET @listStatus = InvokeRetrieve(@rr4, @status)
+        
+
+        
+        /* Create the Request for the list */
+        SET @rr3 = CreateObject("RetrieveRequest")
+        SetObjectProperty(@rr3,"ObjectType","List")
+        AddObjectArrayItem(@rr3, "Properties", "ListName")
+        AddObjectArrayItem(@rr3, "Properties", "Type")
+        AddObjectArrayItem(@rr3, "Properties", "Description")
+        AddObjectArrayItem(@rr3, "Properties", "ID")
+        AddObjectArrayItem(@rr3, "Properties", "CustomerKey")
+
+        SET @sfp2 = CreateObject("SimpleFilterPart")
+        SetObjectProperty(@sfp2,"Property","Type")
+        SetObjectProperty(@sfp2,"SimpleOperator","equals")
+        AddObjectArrayItem(@sfp2,"Value","public")
+
+        SET @sfp3 = CreateObject("SimpleFilterPart")
+        SetObjectProperty(@sfp3,"Property","ListClassification")
+        SetObjectProperty(@sfp3,"SimpleOperator","equals")
+        AddObjectArrayItem(@sfp3,"Value","PublicationList")
+
+        /* set the complex filter */
+        Set @cf1 = CreateObject("ComplexFilterPart")
+        SetObjectProperty(@cf1,"LeftOperand",@sfp2)
+        SetObjectProperty(@cf1,"RightOperand",@sfp3)
+        SetObjectProperty(@cf1,"LogicalOperator","AND")
+        /* set the filter to the request */
+        SetObjectProperty(@rr3,"Filter",@cf1)
+        SET @atts = InvokeRetrieve(@rr3, @status)
+
+        /* String to store all the list ids */
+        SET @ListsA = ""
+        SET @ListsU = ""
+        Set @lA = 1
+        Set @lU = 1
+
+        /* make sure that lists are present */
+        IF RowCount(@atts) > 0 THEN
+
+         /* For all of the present lists, take the following actions */
+         FOR @c = 1 TO RowCount(@atts) DO
+
+          /* get each of the rows */
+          SET @lis = Row(@atts,@c)
+          
+
+        
+          /* get the necesary variables */
+       SET @lis_name = Field(@lis,'ListName')
+          SET @lis_ID = Field(@lis,'ID')
+          SET @lis_des = Field(@lis,'Description')
+         SET @lis_key = Field(@lis,'CustomerKey')
+          Set @printed = false
+          /* Find the status of the public list */  
+          
+          IF RowCount(@listStatus) > 0 THEN
+
+           /* for all the status of the list */
+           FOR @d = 1 TO RowCount(@listStatus) DO
+
+            SET @lisStat = Row(@listStatus,@d)
+            SET @lisStat_id = Field(@lisStat,'ListID')
+            SET @lis_status = Field(@lisStat,'Status')
+   
+              if @lisStat_id == @lis_ID and @lis_status == 'Active' then
+            ]%%
+       
+        
+        
+         <input type="checkbox" name="Checkbox" value="%%=v(@lis_key)=%%" checked="checked"> <span style="font-size: 10pt;"> %%=v(@lis_name)=%%</span><br>
+            %%[
+             /* create the array of Active list ids */
+             if @lA == 1 then
+              SET @ListsA = @lis_ID
+              SET @lA = 2
+             else
+              SET @ListsA = Concat(@ListsA, "|" , @lis_ID)
+             endif
+
+             Set @printed = true
+
+            elseif @lisStat_id == @lis_ID and @lis_status == 'Unsubscribed' then
+           Output(@ListsA)
+           
+           ]%%
+        <input type="checkbox" name="Checkbox" value="%%=v(@lis_key)=%%"><span style="font-size: 10pt;"> %%=v(@lis_name)=%%</span><br>
+      
+            %%[
+             /* create the array of Active list ids */
+             if @lA == 1 then
+              SET @ListsA = @lis_ID
+              SET @lA = 2
+             else
+              SET @ListsA = Concat(@ListsA, "|" , @lis_ID)
+             endif
+
+             Set @printed = true
+
+            endif
+
+           NEXT @d
+          ENDIF
+          IF @printed == false then
+           ]%%
+ <input type="checkbox" name="Checkbox" value="%%=v(@lis_key)=%%"> <span style="font-size: 10pt;"> %%=v(@lis_name)=%%</span><br>
+           
+           %%[
+
+           /* create the array of Non Active list ids */
+            if @lD== 1 then
+             SET @ListsU = @lis_ID
+             SET @lD = 2
+            else
+             SET @ListsU = Concat(@ListsU, "|" , @lis_ID)
+            endif
+          endif
+
+         NEXT @c
+        endif
+        ]%%
+        
+   <input type="checkbox" onclick="toggle(this)"> <span style="font-size: 10pt;">Select all</span><br>      
+        
+<input type="hidden" id="keys" name="keys" value="">
+  <input type="hidden" id="ukeys" name="ukeys" value="">
+         <input type="hidden" id="SubKey" name="SubKey" value="%%=v(@subkey)=%%">
+         <input type="hidden" id="EmailAddr" name="EmailAddr" value="%%=v(@emailAddress)=%%">
+        <input type="hidden" id="unsub1" name="unsub1" value="False">
+     
+ <p>
+        <button type="submit" id="get-selected" value="submit" style="font-size: 10pt; font-family: Helvetica, Arial, sans-serif; font-weight: 100; width: fit-content;float:left;">Update Preferences</button>
+        </p>
+        </div>
+    </td>
+     </tr>
+     <tr>
+     <td>
+       <div>
+        
+         <center><p style="color:#0047ab; font-size: 15pt; line-height: 1; font-family: Helvetica, Arial, sans-serif; font-weight: 700; padding-top:20px;text-align:left;">Unsubscribe from all </p>
+        </center>
+        <p style="font-size: 10pt;">
+   If you wish to unsubscribe from All communications from PepsiCo ANZ, check the box and click the unsubscribe button below.
+        </p>
+      <input type="checkbox" id="unsub" name="unsub" value="false"><span style="font-size: 10pt;"> I no longer wish to receive any future communications.</span><br>
+        <button type="submit" id="unsubbutton" value="unsub" style="font-size: 10pt; font-family: Helvetica, Arial, sans-serif; font-weight: 100; width: fit-content ;float:left;">Unsubscribe</button>
+      </div>
+     </td></tr></table></form>
+
+<script>
+ function toggle(source) {
+    var checkboxes = document.querySelectorAll('input[name="Checkbox"]');
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i] != source)
+            checkboxes[i].checked = source.checked;
+    }
+}
+  </script>
+
+    <script>
+    $(function () {
+
+            $("#get-selected").click(function () {
+                var open = [];
+              var unchecked = [];
+                $.each($("input:checkbox:checked[name='Checkbox']"), function ()
+                       {
+                    open.push($(this).val());
+                  open.push(";");
+                }
+                   );
+              
+               $.each($("input:checkbox:not(:checked)[name='Checkbox']"), function ()
+                       {
+                    unchecked.push($(this).val());
+                 unchecked.push(";");
+                }
+                   );
+              document.getElementById("keys").value = open;
+               document.getElementById("ukeys").value = unchecked;
+            
+            })
+
+        });
+        
+            $("#unsubbutton").click(function() {
+                   if( $('#unsub').is(':checked') ){
+   var checked="True"
+}
+else{
+    var checked="False"
+}
+   document.getElementById("unsub1").value = checked;  
+              });  
+     
+    </script>
+
+
+
+      </div>
